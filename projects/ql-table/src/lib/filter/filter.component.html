@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <label class="filter">
+        <span class="label"
+              [class.label-has-value]="hasValue"> {{ label }}</span>
+        <input #input
+               (input)="hasValue = !!$event.target.value"
+               class="filter-input"
+               [attr.aria-placeholder]="label">
+    </label>
+</div>
+

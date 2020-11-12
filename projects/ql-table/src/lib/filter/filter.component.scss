@@ -1,0 +1,27 @@
+@import "./../toolbar/toolbar.variables";
+@import "~@angular/material/theming";
+@import "filter.theme";
+
+
+.wrapper {
+  position: relative;
+  height: 100%;
+
+  .filter {
+
+    height: 90%;
+    position: relative;
+
+    .filter-input {
+      width: 40rem;
+    }
+
+    .label {
+      height: 1rem;
+      position: absolute;
+      transition-property: top, left, right, opacity, color;
+      transition-timing-function: ease-in-out;
+      transition-duration: 350ms;
+    }
+  }
+}

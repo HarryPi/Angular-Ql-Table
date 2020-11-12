@@ -1,0 +1,15 @@
+@import "~@angular/material/theming";
+@import "toolbar.variables";
+
+.toolbar {
+  width: 100%;
+  height: $toolbar-height;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  padding-right: 0.1rem;
+  @include mat-elevation(10);
+
+}
+
+

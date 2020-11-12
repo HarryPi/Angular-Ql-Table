@@ -1,0 +1,28 @@
+<div *ngIf="tableData"
+     class="wrapper">
+    <ng-content select="ql-toolbar"></ng-content>
+    <table class="mat-elevation-z10 table"
+           mat-table
+           [dataSource]="tableData"
+	       #table
+    >
+
+        <ng-container *ngFor="let def of columnDefs"
+                      [matColumnDef]="def">
+            <th mat-header-cell
+                *matHeaderCellDef>
+                {{ def }}
+            </th>
+            <td mat-cell
+                *matCellDef="let element">
+                {{ element[def] }}
+            </td>
+        </ng-container>
+        <tr mat-header-row
+            *matHeaderRowDef="columnDefs">
+        </tr>
+        <tr mat-row
+            *matRowDef="let row; columns: columnDefs;">
+        </tr>
+    </table>
+</div>
