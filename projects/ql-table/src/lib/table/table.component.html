@@ -4,20 +4,31 @@
     <table class="mat-elevation-z10 table"
            mat-table
            [dataSource]="tableData"
-	       #table
-    >
+	       #table>
 
+        <!-- Headers -->
         <ng-container *ngFor="let def of columnDefs"
                       [matColumnDef]="def">
+
             <th mat-header-cell
-                *matHeaderCellDef>
-                {{ def }}
+                *matHeaderCellDef
+                class="capitalize"
+            >
+                {{ getColumnName(def) }}
             </th>
             <td mat-cell
                 *matCellDef="let element">
-                {{ element[def] }}
+               <ng-container *ngIf="def !== extra; else extraCol">
+                   {{ element[def] }}
+               </ng-container>
+                <ng-template #extraCol>
+                    <ng-container *ngTemplateOutlet="extraTemplate; context: {row: element}">
+                    </ng-container>
+                </ng-template>
             </td>
         </ng-container>
+
+        <!-- Values -->
         <tr mat-header-row
             *matHeaderRowDef="columnDefs">
         </tr>
@@ -26,3 +37,4 @@
         </tr>
     </table>
 </div>
+
