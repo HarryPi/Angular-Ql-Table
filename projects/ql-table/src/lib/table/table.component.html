@@ -18,9 +18,11 @@
             </th>
             <td mat-cell
                 *matCellDef="let element">
-               <ng-container *ngIf="def !== extra; else extraCol">
-                   {{ element[def] }}
-               </ng-container>
+                <ng-container *ngIf="def !== extra; else extraCol">
+                    {{ element[def] }}
+                </ng-container>
+                <!-- Here the consumer can pass one extra column template they choose the template will
+                receive the row object as template value -->
                 <ng-template #extraCol>
                     <ng-container *ngTemplateOutlet="extraTemplate; context: {row: element}">
                     </ng-container>

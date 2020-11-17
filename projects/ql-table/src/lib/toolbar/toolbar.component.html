@@ -1,8 +1,10 @@
 <div class="toolbar"
      [class.primary]="color === 'primary'"
-     [class.accent]="color === 'accent'"
->
+     [class.accent]="color === 'accent'">
+
     <ng-content select="ql-filter"></ng-content>
+    <ng-content></ng-content>
+
 </div>
 
 

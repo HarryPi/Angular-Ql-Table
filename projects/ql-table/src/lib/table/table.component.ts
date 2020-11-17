@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { Toolbar } from '../toolbar/toolbar';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent<T> implements OnInit, AfterContentInit, OnDestroy {
+export class TableComponent<T> implements OnInit, AfterContentInit, OnChanges, OnDestroy {
 
   @Input() data: T[] | Observable<T[]>;
   @Input() columnsToIgnore: string[];
@@ -43,6 +43,10 @@ export class TableComponent<T> implements OnInit, AfterContentInit, OnDestroy {
             this._createColumnDefs(tableData);
           })
       ).subscribe();
+    } else {
+      this.tableData = new MatTableDataSource<T>(this.data);
+      this._innerData = this.data;
+      this._createColumnDefs(this.data);
     }
   }
 
@@ -56,7 +60,17 @@ export class TableComponent<T> implements OnInit, AfterContentInit, OnDestroy {
           })
       ).subscribe();
     }
-    console.log(this.extra, this.extraTemplate);
+  }
+
+  ngOnChanges(): void {
+    // Check for changes in the data if data is not an observable
+    if (!(this.data instanceof Observable)) {
+      if (this.tableData) {
+        this._innerData = this.data;
+        this.tableData.data = this.data;
+        this._createColumnDefs(this._innerData);
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -70,6 +84,11 @@ export class TableComponent<T> implements OnInit, AfterContentInit, OnDestroy {
    * @private
    */
   private _createColumnDefs(tableData: T[]): void {
+    console.log(tableData);
+    if (!tableData) {
+      return;
+    }
+
     // Find the first item
     const item: T = tableData.find(v => !!v);
 
