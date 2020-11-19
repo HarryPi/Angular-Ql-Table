@@ -12,10 +12,21 @@ import { Toolbar } from '../toolbar/toolbar';
 })
 export class TableComponent<T> implements OnInit, AfterContentInit, OnChanges, OnDestroy {
 
+  /**
+   * The Data the table will render
+   */
   @Input() data: T[] | Observable<T[]>;
+  /**
+   * Any columns that should be ignored when dynamically generating column names
+   */
   @Input() columnsToIgnore: string[];
-  @Input() extra: string;
-  @Input() extraTemplate: TemplateRef<any>;
+  /**
+   * The custom template to apply if the display condition is met
+   */
+  @Input() colTemplate: TemplateRef<any>;
+  @Input() displayTemplateCol: ((T) => boolean) | boolean | { index: number, condition: ((T) => boolean) | boolean }[];
+  @Input() extraColName: string;
+  @Input() extraColTemplate: TemplateRef<any>;
 
   @ContentChild(Toolbar) toolbar: Toolbar<T> | null = null;
   @ContentChild(Filter) filter: Filter<T> | null = null;
@@ -97,13 +108,30 @@ export class TableComponent<T> implements OnInit, AfterContentInit, OnChanges, O
       this.columnDefs = [
         ...Object.getOwnPropertyNames(item).filter(v => !this.columnsToIgnore.includes(v))
       ];
-      if (this.extra && this.extraTemplate) {
-        this.columnDefs.push(this.extra);
+      if (this.extraColName) {
+        this.columnDefs.push(this.extraColName);
       }
     }
   }
 
   getColumnName(def: string): string {
     return def.match(/[A-Z]+[^A-Z]*|[^A-Z]+/g).join(' ');
+  }
+
+  shouldDisplayTemplate(element: T, currentIndex: number): boolean {
+    if (typeof this.displayTemplateCol === 'function') {
+      return this.displayTemplateCol(element);
+    } else if (Array.isArray(this.displayTemplateCol)) {
+      const conditionToExec = this.displayTemplateCol.find(item => item.index === currentIndex);
+      if (conditionToExec) {
+        if (typeof conditionToExec.condition === 'function') {
+          return conditionToExec.condition(element);
+        } else {
+          return conditionToExec.condition;
+        }
+      }
+    } else {
+      return this.displayTemplateCol;
+    }
   }
 }

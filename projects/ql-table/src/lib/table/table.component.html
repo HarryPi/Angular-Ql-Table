@@ -7,7 +7,7 @@
 	       #table>
 
         <!-- Headers -->
-        <ng-container *ngFor="let def of columnDefs"
+        <ng-container *ngFor="let def of columnDefs; let i = index"
                       [matColumnDef]="def">
 
             <th mat-header-cell
@@ -18,13 +18,23 @@
             </th>
             <td mat-cell
                 *matCellDef="let element">
-                <ng-container *ngIf="def !== extra; else extraCol">
-                    {{ element[def] }}
-                </ng-container>
+                <ng-template [ngIf]="def !== extraColName"
+                             [ngIfElse]="extraCol">
+                    <ng-container *ngIf="!shouldDisplayTemplate(element, i); else customCol">
+                        {{ element[def] }}
+                    </ng-container>
+                </ng-template>
+
+                <!-- Use this template if the consumer wants to use a custom column template -->
+                <ng-template #customCol>
+                    <ng-container *ngTemplateOutlet="colTemplate; context: {row: element}">
+                    </ng-container>
+                </ng-template>
+
                 <!-- Here the consumer can pass one extra column template they choose the template will
-                receive the row object as template value -->
+               receive the row object as template value -->
                 <ng-template #extraCol>
-                    <ng-container *ngTemplateOutlet="extraTemplate; context: {row: element}">
+                    <ng-container *ngTemplateOutlet="extraColTemplate; context: {row: element}">
                     </ng-container>
                 </ng-template>
             </td>
