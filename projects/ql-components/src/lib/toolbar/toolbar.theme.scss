@@ -1,0 +1,11 @@
+@mixin toolbar-theme($global-theme) {
+  .toolbar {
+    &.primary {
+      background-color: mat-color(map-get($global-theme, primary));
+    }
+
+    &.accent {
+      background-color: mat-color(map-get($global-theme, accent));
+    }
+  }
+}

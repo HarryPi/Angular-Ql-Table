@@ -3,38 +3,78 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ql-table": {
+    "ql-components": {
       "projectType": "library",
-      "root": "projects/ql-table",
-      "sourceRoot": "projects/ql-table/src",
+      "root": "projects/ql-components",
+      "sourceRoot": "projects/ql-components/src",
       "prefix": "ql",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ql-table/tsconfig.lib.json",
-            "project": "projects/ql-table/ng-package.json"
+            "tsConfig": "projects/ql-components/tsconfig.lib.json",
+            "project": "projects/ql-components/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ql-table/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ql-components/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ql-table/src/test.ts",
-            "tsConfig": "projects/ql-table/tsconfig.spec.json",
-            "karmaConfig": "projects/ql-table/karma.conf.js"
+            "main": "projects/ql-components/src/test.ts",
+            "tsConfig": "projects/ql-components/tsconfig.spec.json",
+            "karmaConfig": "projects/ql-components/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ql-table/tsconfig.lib.json",
-              "projects/ql-table/tsconfig.spec.json"
+              "projects/ql-components/tsconfig.lib.json",
+              "projects/ql-components/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "image-drawer": {
+      "projectType": "library",
+      "root": "projects/image-drawer",
+      "sourceRoot": "projects/image-drawer/src",
+      "prefix": "ql",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/image-drawer/tsconfig.lib.json",
+            "project": "projects/image-drawer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/image-drawer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/image-drawer/src/test.ts",
+            "tsConfig": "projects/image-drawer/tsconfig.spec.json",
+            "karmaConfig": "projects/image-drawer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/image-drawer/tsconfig.lib.json",
+              "projects/image-drawer/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -47,7 +87,7 @@
   "cli": {
     "analytics": false
   },
-  "defaultProject": "ql-table",
+  "defaultProject": "ql-components",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"

@@ -1,0 +1,75 @@
+@mixin input($global-theme: null) {
+
+  $material-primary: red;
+
+  @if ($global-theme) {
+    $material-primary: mat-color(map-get($global-theme, primary));
+  }
+
+  border: 0.2rem solid $material-primary;
+  border-radius: 0.4rem;
+  padding: 1.4rem;
+
+  transition-property: box-shadow, border;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.5s;
+
+  &.bottom-shadow {
+    box-shadow: inset 0 -0.3rem 0.1rem $material-primary;
+  }
+
+}
+
+@mixin label-with-value($global-theme: null) {
+  $secondary-color: red;
+
+  @if ($global-theme) {
+    $secondary-color: mat-color(map-get($global-theme, accent), 300);
+  }
+
+  top: 0;
+  left: 0;
+  opacity: 1;
+  color: $secondary-color;
+}
+
+@mixin label-with-small-value($global-theme: null) {
+  $material-secondary: red;
+
+  @if ($global-theme) {
+    $material-secondary: mat-color(map-get($global-theme, accent), 300);
+  }
+
+  top: -1rem;
+  left: 75%;
+  opacity: 0.5;
+  font-size: 1rem;
+  color: $material-secondary;
+}
+
+@mixin filter-theme($global-theme) {
+  div.wrapper {
+    .filter {
+
+      &:focus-within {
+        .label {
+          @include label-with-small-value($global-theme);
+        }
+      }
+
+      .filter-input {
+        @include input($global-theme);
+      }
+
+      .label {
+        opacity: 0.7;
+        top: 15%;
+        left: 5%;
+
+        &-has-value {
+          @include label-with-small-value($global-theme);
+        }
+      }
+    }
+  }
+}

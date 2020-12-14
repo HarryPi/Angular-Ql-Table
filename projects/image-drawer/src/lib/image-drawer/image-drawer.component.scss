@@ -1,0 +1,17 @@
+.drawer {
+  display: grid;
+  width: 100%;
+
+  grid-template-areas: "canvas toolbar";
+  grid-template-columns: minmax(65%, 100%) minmax(0, 35%);
+  grid-template-rows: auto;
+  grid-gap: 0.2rem;
+
+  .canvas-section {
+    grid-area: canvas;
+  }
+
+  .toolbar-section {
+    grid-area: toolbar;
+  }
+}

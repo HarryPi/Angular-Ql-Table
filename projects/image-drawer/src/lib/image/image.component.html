@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-content>
+        <!--In case of non defined width / height the 200px set will be ignored but its necessary for canvas to render-->
+        <canvas [width]="width ? width : 200"
+                [height]="height ? height : 200"
+                [ngClass]="{
+                    'full-width': !width && !fitImage,
+                    'full-height': !height && !fitImage
+                }"
+                (mousedown)='beginDraw($event)'
+                (mousemove)='continueDraw($event)'
+                (mouseup)='stopDraw($event)'
+		        #canvas></canvas>
+    </mat-card-content>
+    <img #image
+         (load)="drawImageOnCanvas()"
+         [src]="imageSrc"
+         alt="Canvas image to paint on top of">
+</mat-card>

@@ -16,12 +16,12 @@
       "dom"
     ],
     "paths": {
-      "ql-table": [
-        "dist/ql-table/ql-table",
-        "dist/ql-table",
-        "node_modules/*",
-        "dist/ql-table/ql-table",
-        "dist/ql-table"
+      "ql-components": [
+        "dist/ql-components"
+      ],
+      "image-drawer": [
+        "dist/image-drawer/image-drawer",
+        "dist/image-drawer"
       ]
     }
   }
