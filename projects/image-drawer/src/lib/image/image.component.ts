@@ -103,6 +103,10 @@ export class ImageComponent extends QImage implements OnInit {
 
   }
 
+  getPoints(): [IPoint[]] {
+    return this._canvasState;
+  }
+
   private _getCursorPosition(canvas, event): { x: number, y: number } {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;

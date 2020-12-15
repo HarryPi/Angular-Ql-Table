@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>Give selected color a label</h3>
+<mat-dialog-content>
+	<mat-form-field class='label-input' appearance='outline'>
+		<mat-label>Color label</mat-label>
+		<input [formControl]='labelControl'
+			   matInput />
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-raised-button (click)='save()'>Save</button>
+	<button mat-raised-button (click)='cancel()'>Cancel</button>
+</mat-dialog-actions>

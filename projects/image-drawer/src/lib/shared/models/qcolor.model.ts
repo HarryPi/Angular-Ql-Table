@@ -1,5 +1,5 @@
 export interface QColorModel {
-  id: number;
+  label?: string;
   color: string;
-  isSelected: boolean;
+  isSelected?: boolean;
 }

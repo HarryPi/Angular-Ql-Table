@@ -3,12 +3,15 @@ import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { QImage } from '../image/image';
 import { Toolbar } from '../paint-toolbar/toolbar';
-import { Drawer } from './drawer';
+import { Drawer, DrawerState } from './drawer';
 
 @Component({
   selector: 'ql-image-drawer',
   templateUrl: './image-drawer.component.html',
-  styleUrls: ['./image-drawer.component.scss']
+  styleUrls: ['./image-drawer.component.scss'],
+  providers: [
+    { provide: Drawer, useExisting: ImageDrawerComponent }
+  ]
 })
 export class ImageDrawerComponent extends Drawer implements OnInit, AfterContentInit, OnDestroy {
 
@@ -47,6 +50,13 @@ export class ImageDrawerComponent extends Drawer implements OnInit, AfterContent
   ngOnDestroy(): void {
     this._destroy.next();
     this._destroy.complete();
+  }
+
+  getCurrentState(): DrawerState {
+    return {
+      colors: this.toolbarComponent ? this.toolbarComponent.getColors() : [],
+      shapes: this.imageComponent ? this.imageComponent.getPoints() : []
+    } as DrawerState;
   }
 
 }

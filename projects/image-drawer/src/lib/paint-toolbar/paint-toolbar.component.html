@@ -16,6 +16,7 @@
 					  *ngFor='let color of toolbarColors.controls; let i = index'
 					  class='toolbar-colors'>
 					<label class='color color-label'>
+						<span>{{ color.value.label }}</span>
 						<input #colorInput
 							   [value]='getColorValue(color)'
 							   alt='choose color'
@@ -24,6 +25,7 @@
 					</label>
 					<span class='icon'>
 						<mat-icon (click)='activateColor(colorInput.value, i, colorContainer)'>check</mat-icon>
+						<mat-icon (click)='editLabel(i)'>settings</mat-icon>
 					</span>
 					<span class='underline'></span>
 				</span>

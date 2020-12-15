@@ -65,6 +65,11 @@
       justify-self: center;
       align-self: center;
 
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+
       &.color-label {
         height: 80%;
         width: 80%;

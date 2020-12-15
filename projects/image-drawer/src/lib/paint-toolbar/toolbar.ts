@@ -1,7 +1,11 @@
 import { Subject } from 'rxjs';
+import { QColorModel } from '../shared/models/qcolor.model';
 
 export abstract class Toolbar {
-  colors: string[] | { color: string, id: number }[];
+  colors: string[] | QColorModel[];
   selectedColor: Subject<string>;
   requestUndo: Subject<void>;
+
+  abstract getColors(): QColorModel[];
 }
+

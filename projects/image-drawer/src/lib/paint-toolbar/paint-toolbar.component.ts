@@ -1,8 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 import { QColorModel } from '../shared/models/qcolor.model';
+import { ColorSettingsComponent } from './color-settings/color-settings.component';
 import { Toolbar } from './toolbar';
 
 @Component({
@@ -13,7 +16,7 @@ import { Toolbar } from './toolbar';
     { provide: Toolbar, useExisting: PaintToolbarComponent }
   ]
 })
-export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges {
+export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   colors: string[] | QColorModel[];
@@ -29,16 +32,20 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges 
 
   colorForm: FormGroup;
 
+  private _destroy: Subject<void>;
+
   constructor(
       private _changeDetection: ChangeDetectorRef,
       private _fb: FormBuilder,
       private _renderer: Renderer2,
+      private _dialog: MatDialog,
       @Inject(DOCUMENT) private _document: HTMLDocument
   ) {
     super();
     this.colorsChange = new Subject<string[] | QColorModel[]>();
     this.selectedColor = new Subject<string>();
     this.requestUndo = new Subject<void>();
+    this._destroy = new Subject<void>();
   }
 
   ngOnInit(): void {
@@ -47,9 +54,15 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges 
     this.colorForm = this._fb.group({
       colors: this._fb.array(colorControls)
     });
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+  }
+
+  ngOnDestroy(): void {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   addColor(): void {
@@ -60,7 +73,7 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges 
     this.toolbarColors.push(new FormControl({
       isSelected: true,
       color: 'black',
-      id: undefined
+      label: ''
     } as QColorModel));
 
   }
@@ -98,11 +111,40 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges 
     this.toolbarColors.setValue([...options]);
   }
 
+  undo(): void {
+    this.requestUndo.next();
+  }
+
+  editLabel(i: number): void {
+    const dialogRef = this._dialog.open(ColorSettingsComponent, {
+      height: '35%',
+      width: '30%',
+      data: {
+        index: i
+      }
+    });
+
+    dialogRef.afterClosed().pipe(
+        first(),
+        tap(({ label, index }) => {
+          this.toolbarColors.controls[index].setValue({
+            ...this.toolbarColors.controls[index].value,
+            label
+          });
+        })
+    ).subscribe();
+
+  }
+
+  getColors(): QColorModel[] {
+    return this.toolbarColors.controls.map(c => c.value) as QColorModel[];
+  }
+
   private _mapStringToColor(strColor: string): QColorModel {
     if (typeof strColor === 'string') {
       return {
         color: strColor,
-        id: 0
+        label: ''
       } as QColorModel;
     } else {
       return strColor;
@@ -119,7 +161,4 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges 
     return this.colorForm.get('colors') as FormArray;
   }
 
-  undo(): void {
-    this.requestUndo.next();
-  }
 }
