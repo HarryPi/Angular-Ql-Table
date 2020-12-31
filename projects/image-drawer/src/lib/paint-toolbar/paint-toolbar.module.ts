@@ -8,14 +8,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColorSettingsComponent } from './color-settings/color-settings.component';
+import { ExtraToolbarComponent } from './extra-toolbar/extra-toolbar.component';
 import { PaintToolbarComponent } from './paint-toolbar.component';
 
 
 @NgModule({
   declarations: [
     PaintToolbarComponent,
-    ColorSettingsComponent
+    ColorSettingsComponent,
+    ExtraToolbarComponent
   ],
   imports: [
     CommonModule,
@@ -26,14 +29,14 @@ import { PaintToolbarComponent } from './paint-toolbar.component';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   exports: [
     ColorSettingsComponent,
     PaintToolbarComponent
   ],
-  providers: [
-  ]
+  providers: []
 })
 export class PaintToolbarModule {
 }

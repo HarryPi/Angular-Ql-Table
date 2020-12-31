@@ -2,22 +2,33 @@
 	<mat-card-content>
 		<form [formGroup]='colorForm'>
 			<div [formArrayName]="'colors'">
-				<span class='toolbar-options'>
+				<div class='toolbar-options'>
 					<span (click)='addColor()'
 						  class='add-color'>
 						<span>Add Color</span>
 						<mat-icon>add</mat-icon>
 					</span>
-					<span class='undo' (click)='undo()'>
+					<span (click)='undo()'
+						  class='undo'
+						  matTooltip='Undo last action'>
 						<mat-icon>undo</mat-icon>
 					</span>
-				</span>
+					<span (click)='exportColors()'
+						  class='undo'
+						  matTooltip='Save Colors'>
+						<mat-icon>border_color</mat-icon>
+					</span>
+				</div>
+				<!--<div>
+					<ng-content select='extra-toolbar'></ng-content>
+				</div>-->
 				<span #colorContainer
 					  *ngFor='let color of toolbarColors.controls; let i = index'
 					  class='toolbar-colors'>
 					<label class='color color-label'>
 						<span>{{ color.value.label }}</span>
 						<input #colorInput
+							   (change)='colorValueChanged($event, i)'
 							   [value]='getColorValue(color)'
 							   alt='choose color'
 							   class='color-picker'

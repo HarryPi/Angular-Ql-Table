@@ -140,6 +140,18 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
     return this.toolbarColors.controls.map(c => c.value) as QColorModel[];
   }
 
+  exportColors(): void {
+    this.colorsChange.next(this.getColors());
+  }
+
+  colorValueChanged(event: Event, i: number): void {
+    const controlToUpdate = this.toolbarColors.controls[i];
+    controlToUpdate.setValue({
+      ...controlToUpdate.value,
+      color: (event.target as HTMLInputElement).value
+    } as QColorModel);
+  }
+
   private _mapStringToColor(strColor: string): QColorModel {
     if (typeof strColor === 'string') {
       return {
@@ -160,5 +172,6 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
   get toolbarColors(): FormArray {
     return this.colorForm.get('colors') as FormArray;
   }
+
 
 }
