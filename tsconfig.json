@@ -22,6 +22,12 @@
       "image-drawer": [
         "dist/image-drawer/image-drawer",
         "dist/image-drawer"
+      ],
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "rxjs/*": [
+        "./node_modules/rxjs/*"
       ]
     }
   }

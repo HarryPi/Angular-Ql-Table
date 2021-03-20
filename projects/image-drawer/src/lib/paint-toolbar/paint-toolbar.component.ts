@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -30,6 +29,11 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
   @Output()
   requestUndo: Subject<void>;
 
+  /**
+   * Requests from the main component to fire off a complete state request
+   */
+  requestExportState: Subject<QColorModel[]>;
+
   colorForm: FormGroup;
 
   private _destroy: Subject<void>;
@@ -37,20 +41,25 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
   constructor(
       private _changeDetection: ChangeDetectorRef,
       private _fb: FormBuilder,
-      private _renderer: Renderer2,
-      private _dialog: MatDialog,
-      @Inject(DOCUMENT) private _document: HTMLDocument
+      private _dialog: MatDialog
   ) {
     super();
     this.colorsChange = new Subject<string[] | QColorModel[]>();
     this.selectedColor = new Subject<string>();
     this.requestUndo = new Subject<void>();
     this._destroy = new Subject<void>();
+    this.requestExportState = new Subject<QColorModel[]>();
   }
 
   ngOnInit(): void {
     // @ts-ignore
-    const colorControls: FormControl[] = this.colors?.map(c => new FormControl(c)) ?? [];
+    const colorControls: FormControl[] = this.colors?.map(c => new FormControl(c)) ?? [
+      this._fb.control({
+        color: 'black',
+        isSelected: true,
+        label: 'default'
+      } as QColorModel)
+    ];
     this.colorForm = this._fb.group({
       colors: this._fb.array(colorControls)
     });
@@ -66,18 +75,21 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
   }
 
   addColor(): void {
-    const selectedControl: FormControl[] = this.toolbarColors.controls.filter(c => (c.value as QColorModel).isSelected) as FormControl[];
-    if (selectedControl?.length > 0) {
-      selectedControl[0].value.isSelected = false;
-    }
     this.toolbarColors.push(new FormControl({
-      isSelected: true,
+      // We only want to mark as selected if there are no other colors
+      isSelected: this.toolbarColors.controls.length <= 0,
       color: 'black',
       label: ''
     } as QColorModel));
 
+    this._emitColorFormsChanged();
   }
 
+  /**
+   * Get the value of input color as string, the string can be in any form 'black' '#ef54hb', 'rgb(0,0,0)'
+   * @param {AbstractControl} color
+   * @returns {string}
+   */
   getColorValue(color: AbstractControl): string {
     const value: string | QColorModel = color.value;
     if (typeof value === 'string') {
@@ -92,7 +104,12 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
     return 'black';
   }
 
-  activateColor(color: string, index: number, elToMarkAsSelected: HTMLSpanElement): void {
+  /**
+   * Marks a color as selected in the HTML and updates the internal FormArray
+   * @param {string} color
+   * @param {number} index
+   */
+  activateColor(color: string, index: number): void {
     const activeColor: AbstractControl[] = this.toolbarColors.controls.filter(c => c.value.isSelected);
 
     if (activeColor?.length > 0) {
@@ -102,15 +119,13 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
     const options = this.toolbarColors.controls.map(c => c.value);
     options[index].isSelected = true;
 
-    const selectedEl: Element = this._document.querySelector('.selected');
-    if (selectedEl) {
-      this._renderer.removeClass(selectedEl, 'selected');
-    }
-    this._renderer.addClass(elToMarkAsSelected, 'selected');
     this.selectedColor.next(color);
     this.toolbarColors.setValue([...options]);
   }
 
+  /**
+   * Informs any component that holds the points drawn to the image to undo the last action
+   */
   undo(): void {
     this.requestUndo.next();
   }
@@ -137,12 +152,9 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
   }
 
   getColors(): QColorModel[] {
-    return this.toolbarColors.controls.map(c => c.value) as QColorModel[];
+    return this.toolbarColors?.controls.map(c => c.value) as QColorModel[];
   }
 
-  exportColors(): void {
-    this.colorsChange.next(this.getColors());
-  }
 
   colorValueChanged(event: Event, i: number): void {
     const controlToUpdate = this.toolbarColors.controls[i];
@@ -150,6 +162,12 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
       ...controlToUpdate.value,
       color: (event.target as HTMLInputElement).value
     } as QColorModel);
+
+    this._emitColorFormsChanged();
+  }
+
+  exportState(): void {
+    this.requestExportState.next(this.getColors());
   }
 
   private _mapStringToColor(strColor: string): QColorModel {
@@ -163,14 +181,24 @@ export class PaintToolbarComponent extends Toolbar implements OnInit, OnChanges,
     }
   }
 
+  /**
+   * Check if its a colo
+   * @param {string} strColor
+   * @returns {boolean}
+   * @private
+   */
   private _isColor(strColor: string): boolean {
     const s = new Option().style;
     s.color = strColor;
     return s.color !== '';
   }
 
+  private _emitColorFormsChanged(): void {
+    this.colorsChange.next(this.getColors());
+  }
+
   get toolbarColors(): FormArray {
-    return this.colorForm.get('colors') as FormArray;
+    return this.colorForm?.get('colors') as FormArray;
   }
 
 

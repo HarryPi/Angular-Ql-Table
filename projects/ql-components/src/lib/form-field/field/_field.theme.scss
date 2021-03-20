@@ -1,0 +1,64 @@
+@mixin form-field-theme($theme, $input-height: 2rem, $input-padding: .4rem) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  ql-field.invalid > div.input {
+    border: .1rem solid mat-color($warn, 700, 0.7);
+
+    &:focus-within {
+      border: .1rem solid mat-color($warn, 700, 0.7);
+      box-shadow: 0 0 .15rem .02rem mat-color($warn, 300, 1);
+    }
+  };
+
+  ql-field > div.input  {
+    transition-property: border, box-shadow;
+    transition-duration: 250ms;
+    transition-timing-function: linear;
+
+    display: inline-flex;
+    position: relative;
+    height: $input-height;
+    padding: $input-padding;
+    width: inherit;
+    background-color: whitesmoke;
+    border: .1rem solid mat-color($primary, 700, 0.4);
+    outline: none;
+    border-radius: .2rem;
+
+    &:hover {
+      border: .1rem solid mat-color($primary, 700, 0.7);
+    }
+
+    &:focus-within {
+      border: .1rem solid mat-color($primary, 700, 0.7);
+      box-shadow: 0 0 .15rem .02rem mat-color($primary, 300, 1);
+    }
+
+    & > input {
+      padding: 0;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      box-sizing: border-box;
+      margin: 0;
+      color: mat-color($primary, 700, 1);
+      width: 100%;
+    }
+  }
+  ql-field > div.label {
+    color: mat-color($ascent, 700);
+  }
+  ql-field > div.error {
+    transition-property: width;
+    transition-duration: 350ms;
+    transition-timing-function: linear;
+
+    width: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    color: mat-color($warn, 700);
+  }
+}

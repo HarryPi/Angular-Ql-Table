@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { QImage } from './image';
 import { IPoint } from './point';
@@ -18,6 +18,9 @@ export class ImageComponent extends QImage implements OnInit {
   @Input() imageSrc: string;
   @Input() fitImage: boolean;
   @Input() paintColor = 'black';
+  @Input() canvasState: [IPoint[]];
+
+  @Output() shapesChanged: Subject<[IPoint[]]>;
 
   @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('image', { static: true }) image: ElementRef<HTMLImageElement>;
@@ -26,7 +29,6 @@ export class ImageComponent extends QImage implements OnInit {
   private _context: CanvasRenderingContext2D;
   private _mouseIsClicked: boolean;
   private _destroy: Subject<void>;
-  private _canvasState: [IPoint[]];
   private _currentLine: IPoint[];
 
   constructor(
@@ -34,11 +36,12 @@ export class ImageComponent extends QImage implements OnInit {
   ) {
     super();
     this._currentLine = [];
+    this._destroy = new Subject<void>();
+    this.shapesChanged = new Subject<[IPoint[]]>();
   }
 
   ngOnInit(): void {
     this._context = this.canvas.nativeElement.getContext('2d');
-    this._destroy = new Subject<void>();
   }
 
   drawImageOnCanvas(): void {
@@ -54,6 +57,13 @@ export class ImageComponent extends QImage implements OnInit {
     }
 
     this._hideImage();
+
+    // If a canvas state has been given to the component
+    if (this.canvasState) {
+      // Draw the canvas
+      this._drawCanvasStateOnCanvas();
+    }
+
   }
 
   beginDraw(event: MouseEvent): void {
@@ -74,11 +84,13 @@ export class ImageComponent extends QImage implements OnInit {
     this._mouseIsClicked = false;
     this._pathIsOpen = false;
     this._context.closePath();
-    if (this._canvasState) {
-      this._canvasState.push(this._currentLine);
+    if (this.canvasState) {
+      this.canvasState.push(this._currentLine);
     } else {
-      this._canvasState = [[...this._currentLine]];
+      this.canvasState = [[...this._currentLine]];
     }
+    // indicate here that state changed
+    this.shapesChanged.next(this.canvasState);
     this._currentLine = [];
   }
 
@@ -89,9 +101,24 @@ export class ImageComponent extends QImage implements OnInit {
     this.drawImageOnCanvas();
 
     // Remove last action from our array
-    this._canvasState.pop();
+    this.canvasState.pop();
+    // indicate here that state changed
+    this.shapesChanged.next(this.canvasState);
+    // redraw based on new canvs state
+    this._drawCanvasStateOnCanvas();
+  }
 
-    for (const points of this._canvasState) {
+  getPoints(): [IPoint[]] {
+    return this.canvasState;
+  }
+
+  /**
+   * Draws the canvas state onto the HTML Canvas, can happen when undoing an action or when
+   * the canvas is first initialized with a state
+   * @private
+   */
+  private _drawCanvasStateOnCanvas(): void {
+    for (const points of this.canvasState) {
       for (let i = 0; i < points.length; i++) {
         const point = points[i];
         this._drawPoint(point.x, point.y, point.mode, point.color, false);
@@ -100,11 +127,6 @@ export class ImageComponent extends QImage implements OnInit {
         }
       }
     }
-
-  }
-
-  getPoints(): [IPoint[]] {
-    return this._canvasState;
   }
 
   private _getCursorPosition(canvas, event): { x: number, y: number } {
@@ -138,4 +160,5 @@ export class ImageComponent extends QImage implements OnInit {
       this._currentLine.push({ x, y, color: this.paintColor, mode });
     }
   }
+
 }

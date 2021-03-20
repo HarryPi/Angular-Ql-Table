@@ -1,0 +1,67 @@
+@mixin ql-button-theme($theme) {
+  @keyframes spinner-spin {
+    0% {
+      transform: rotateZ(0deg);
+    }
+
+    100% {
+      transform: rotateZ(360deg);
+    }
+
+  }
+
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  .ql-button {
+    transition-property: border, box-shadow;
+    transition-duration: 250ms;
+    transition-timing-function: linear;
+
+    border: .1rem solid mat-color($primary, 400, .7);
+    outline: none;
+    border-radius: .2rem;
+
+    &:hover {
+      border: .1rem solid mat-color($primary, 700, .7);
+      box-shadow: 0 0 .15rem .02rem mat-color($primary, 300, 1);
+    }
+
+    &.primary {
+      background-color: mat-color($primary, 700);
+      color: mat-contrast($primary, 700);
+
+      &.disabled {
+        color: mat-color($primary, 700);
+      }
+
+      .ql-button-spinner {
+        fill: mat-color($primary, 700);
+      }
+    }
+
+    &.ascent {
+      background-color: mat-color($ascent, 700);
+      color: mat-contrast($ascent, 700);
+
+      &.disabled {
+        color: mat-color($ascent, 700);
+      }
+      .ql-button-spinner {
+        fill: mat-color($ascent, 700);
+      }
+    }
+  }
+
+  .ql-button-spinner {
+    animation: spinner-spin 2s linear infinite;
+    transform-origin: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

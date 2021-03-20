@@ -2,6 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+export class DialogData {
+  index: number;
+}
+
 @Component({
   selector: 'ql-color-settings',
   templateUrl: './color-settings.component.html',
@@ -13,7 +17,7 @@ export class ColorSettingsComponent implements OnInit {
 
   constructor(
       public dialogRef: MatDialogRef<ColorSettingsComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: { index: number }
+      @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
   }
 

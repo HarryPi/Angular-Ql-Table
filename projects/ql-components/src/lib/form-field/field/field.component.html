@@ -1,0 +1,14 @@
+<div class="label">
+    <label (click)="focusInput()">
+        <ng-content select="ql-label"></ng-content>
+    </label>
+</div>
+<div class="input">
+    <ng-content select="[qlInput]"></ng-content>
+    <ng-content select="[qlIcon]"></ng-content>
+</div>
+<div [@invalid]="inputError ? 'error' : 'no-error'"
+     *ngIf="inputError"
+     class="error">
+    <ng-content select="ql-error"></ng-content>
+</div>

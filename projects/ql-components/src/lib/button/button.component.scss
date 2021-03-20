@@ -1,0 +1,40 @@
+@import "_button-reset.scss";
+
+.ql-button {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-areas: "text";
+  grid-template-columns: 1fr;
+  min-height: 1.6rem;
+  min-width: 3.2rem;
+  justify-content: flex-start;
+  align-items: center;
+  width: inherit;
+  height: inherit;
+  padding: .1rem;
+  place-items: center;
+
+  &.with-extra {
+    grid-template-areas: "text extra";
+    grid-template-columns: .7fr .3fr;
+  }
+
+  &.disabled {
+    background: lightgrey;
+    border-color: darkgrey;
+    cursor: not-allowed;
+  }
+}
+
+.text {
+  grid-area: text;
+}
+
+.extra {
+  grid-area: extra;
+
+  .spinner {
+  }
+}
+

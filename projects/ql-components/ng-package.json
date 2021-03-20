@@ -4,12 +4,12 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "styleIncludePaths": [
-      "src/lib/filter/filter.theme.scss",
-      "src/lib/table/table.theme.scss",
-      "src/lib/toolbar/toolbar.theme.scss"
-    ]
+      "src/lib/**/*.theme.scss"
+    ],
+    "cssUrl": "inline"
   },
   "assets": [
-    "src/lib/**/*.theme.scss"
+    "src/lib/**/*.theme.scss",
+    "src/assets/*"
   ]
 }

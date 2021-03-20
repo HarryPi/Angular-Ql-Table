@@ -13,17 +13,16 @@
 						  matTooltip='Undo last action'>
 						<mat-icon>undo</mat-icon>
 					</span>
-					<span (click)='exportColors()'
-						  class='undo'
-						  matTooltip='Save Colors'>
-						<mat-icon>border_color</mat-icon>
+					<span matTooltip='Export image and colors'
+						(click)='exportState()'>
+						<mat-icon>save</mat-icon>
 					</span>
 				</div>
 				<!--<div>
 					<ng-content select='extra-toolbar'></ng-content>
 				</div>-->
-				<span #colorContainer
-					  *ngFor='let color of toolbarColors.controls; let i = index'
+				<span *ngFor='let color of toolbarColors.controls; let i = index'
+					  [class.selected]='color.value.isSelected'
 					  class='toolbar-colors'>
 					<label class='color color-label'>
 						<span>{{ color.value.label }}</span>
@@ -35,7 +34,7 @@
 							   type='color' />
 					</label>
 					<span class='icon'>
-						<mat-icon (click)='activateColor(colorInput.value, i, colorContainer)'>check</mat-icon>
+						<mat-icon (click)='activateColor(colorInput.value, i)'>check</mat-icon>
 						<mat-icon (click)='editLabel(i)'>settings</mat-icon>
 					</span>
 					<span class='underline'></span>

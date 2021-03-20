@@ -1,0 +1,17 @@
+<button mat-ripple [ngClass]="{
+		'primary': color === 'primary',
+		'ascent': color === 'ascent',
+		'disabled': isLoading
+	}"
+        #button
+		class='ql-button'
+		[disabled]='disabled'>
+	<span class='text'>
+		<ng-content></ng-content>
+	</span>
+	<span *ngIf='isLoading'
+		  class='extra'>
+		<mat-icon svgIcon='spinner' inline></mat-icon>
+	</span>
+</button>
+

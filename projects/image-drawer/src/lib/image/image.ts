@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { IPoint } from './point';
 
 export abstract class QImage {
@@ -6,6 +7,8 @@ export abstract class QImage {
   height: number;
   fitImage: boolean;
   paintColor: string;
+  canvasState: [IPoint[]];
+  shapesChanged: Subject<[IPoint[]]>;
 
   abstract undoLastAction(): void;
   abstract getPoints(): [IPoint[]];

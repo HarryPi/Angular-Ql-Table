@@ -7,6 +7,7 @@ export abstract class Toolbar {
 
   selectedColor: Subject<string>;
   requestUndo: Subject<void>;
+  requestExportState: Subject<QColorModel[]>;
 
   abstract getColors(): QColorModel[];
 }
