@@ -1,0 +1,15 @@
+@mixin sidebar-theme($theme, $swapTheme: false) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  ql-sidebar {
+    @if($swapTheme) {
+      background-color: mat-color($ascent, 200, 0.4);
+    } @else {
+      background-color: mat-color($primary, 200, 0.4);
+    }
+  }
+
+}

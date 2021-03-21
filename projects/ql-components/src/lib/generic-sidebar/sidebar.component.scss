@@ -1,0 +1,7 @@
+@import "~@angular/material/theming";
+
+:host {
+    width: inherit;
+    height: inherit;
+    @include mat-elevation(1);
+}

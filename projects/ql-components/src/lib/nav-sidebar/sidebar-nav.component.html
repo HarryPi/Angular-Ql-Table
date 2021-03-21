@@ -1,0 +1,16 @@
+<div class='items'>
+	<ql-nav-sidebar-item *ngFor='let item of sidebarItems'
+						 [currentRoute]='currentRoute'
+						 [showIconOnly]='collapsed'
+						 [item]='item'>
+	</ql-nav-sidebar-item>
+</div>
+<div class='seperator'></div>
+<div class='collapse'>
+	<span *ngIf='!collapsed'
+		  class='text'>Show less</span>
+	<mat-icon (click)='collapseSidebar()'
+			  class='icon'
+			  inline
+			  svgIcon='arrow-right'></mat-icon>
+</div>

@@ -22,3 +22,9 @@ export * from './lib/form-field/input';
 export * from './lib/button/button.module';
 export * from './lib/button/button.component';
 
+export * from './lib/nav-sidebar/sidebar-nav.module';
+export * from './lib/nav-sidebar/sidebar-nav.component';
+export * from './lib/nav-sidebar/sidebar-nav-item';
+export * from './lib/nav-sidebar/nav-sidebar-item/sidebar-nav-item.component';
+
+export * from './lib/generic-sidebar/sidebar.index';
