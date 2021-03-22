@@ -1,0 +1,11 @@
+@mixin ql-sidebar-group-theme($theme) {
+    $config: mat-get-color-config($theme);
+    $primary: map-get($config, primary);
+    $ascent: map-get($config, accent);
+    $warn: map-get($config, warn);
+
+    ql-sidebar-group {
+        color: mat-color($primary);
+        fill: mat-color($primary);
+    }
+}

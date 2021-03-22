@@ -1,0 +1,35 @@
+@mixin ql-sidebar-header-theme($theme) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+
+  ql-sidebar-header {
+    background-color: mat-color($primary, 400);
+  }
+
+  .header-item {
+    position: relative;
+
+    &:after {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      transition-duration: 250ms;
+      transition-property: width;
+      transition-timing-function: ease-out;
+
+      width: 0;
+      height: .15rem;
+      content: ' ';
+      background-color: mat-color($ascent, 400);
+    }
+
+    &.selected {
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+}

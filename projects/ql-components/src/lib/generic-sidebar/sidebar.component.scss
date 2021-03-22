@@ -4,4 +4,15 @@
     width: inherit;
     height: inherit;
     @include mat-elevation(1);
+
+    display: flex;
+    flex-flow: column;
+
+    > ql-sidebar-header {
+        order: 0;
+    }
+
+    > ql-sidebar-content {
+        order: 1;
+    }
 }

@@ -10,7 +10,6 @@
     border-right: .1rem solid mat-color($ascent, 100, 1);
     border-top: .1rem solid mat-color($ascent, 100, 1);
     border-bottom: .1rem solid mat-color($ascent, 100, 1);
-    @include mat-elevation(1);
 
     .seperator {
       background-color: mat-color($ascent, 100, 1);

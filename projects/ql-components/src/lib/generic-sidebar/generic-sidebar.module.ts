@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from './sidebar.component';
-import { SidebarHeaderComponent } from './sidebar-header/sidebar-header.component';
-import { SidebarHeaderItemDirective } from './sidebar-header/sidebar-header-item.directive';
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { SidebarContentComponent } from './sidebar-content/sidebar-content.component';
-
+import { SidebarGroupComponent } from './sidebar-content/sidebar-group/sidebar-group.component';
+import { SidebarItemComponent } from './sidebar-content/sidebar-item/sidebar-item.component';
+import { SidebarHeaderItemDirective } from './sidebar-header/sidebar-header-item.directive';
+import { SidebarHeaderComponent } from './sidebar-header/sidebar-header.component';
+import { SidebarComponent } from './sidebar.component';
 
 
 @NgModule({
@@ -12,15 +14,21 @@ import { SidebarContentComponent } from './sidebar-content/sidebar-content.compo
       SidebarComponent,
       SidebarHeaderComponent,
       SidebarHeaderItemDirective,
-      SidebarContentComponent
+      SidebarContentComponent,
+      SidebarGroupComponent,
+      SidebarItemComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
   exports: [
       SidebarComponent,
       SidebarHeaderComponent,
-      SidebarHeaderItemDirective
+      SidebarHeaderItemDirective,
+      SidebarContentComponent,
+      SidebarGroupComponent,
+      SidebarItemComponent,
   ]
 })
 export class GenericSidebarModule { }
