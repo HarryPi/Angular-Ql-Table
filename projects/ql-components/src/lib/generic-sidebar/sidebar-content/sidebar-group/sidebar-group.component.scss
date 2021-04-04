@@ -1,6 +1,7 @@
 :host {
   display: grid;
-  grid-template-areas: "text arrow";
+  grid-template-areas: "text arrow"
+                        "content content";
   grid-template-columns: .7fr .3fr;
   grid-gap: 0 .4rem;
   width: 80%;
@@ -32,6 +33,7 @@
   }
 
   .group-content {
+    grid-area: content;
     padding-left: 1.6rem;
 
     .margin {

@@ -1,10 +1,11 @@
 <div class='text'>
 	<ng-content></ng-content>
 </div>
-<div class='arrow'>
-	<mat-icon inline svgIcon='arrow'></mat-icon>
+<div (click)='expand()' class='arrow'>
+	<mat-icon *ngIf='!alwaysOpen' inline svgIcon='arrow'></mat-icon>
 </div>
-<div @expanded *ngIf='isExpanded' class='group-content'>
+<div @expanded *ngIf='isExpanded || alwaysOpen' class='group-content'>
 	<span class='margin'></span>
 	<ng-content select='ql-sidebar-item'></ng-content>
 </div>
+

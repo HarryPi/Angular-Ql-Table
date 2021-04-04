@@ -7,6 +7,7 @@ import { SidebarItemComponent } from './sidebar-content/sidebar-item/sidebar-ite
 import { SidebarHeaderItemDirective } from './sidebar-header/sidebar-header-item.directive';
 import { SidebarHeaderComponent } from './sidebar-header/sidebar-header.component';
 import { SidebarComponent } from './sidebar.component';
+import { SidebarCollapseComponent } from './sidebar-collapse/sidebar-collapse.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { SidebarComponent } from './sidebar.component';
       SidebarContentComponent,
       SidebarGroupComponent,
       SidebarItemComponent,
+      SidebarCollapseComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,8 @@ import { SidebarComponent } from './sidebar.component';
       SidebarContentComponent,
       SidebarGroupComponent,
       SidebarItemComponent,
+      SidebarCollapseComponent,
+
   ]
 })
 export class GenericSidebarModule { }

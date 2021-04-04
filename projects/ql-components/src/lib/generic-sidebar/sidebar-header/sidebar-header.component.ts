@@ -19,7 +19,6 @@ export class SidebarHeaderComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     const totalItems: number = this.items.length;
-    console.log(this.items);
   }
 
 

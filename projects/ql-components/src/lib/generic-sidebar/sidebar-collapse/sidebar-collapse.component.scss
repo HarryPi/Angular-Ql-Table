@@ -1,0 +1,27 @@
+:host {
+  display: grid;
+  grid-template-areas: "text icon";
+  grid-template-columns: .7fr .3fr;
+  height: 2.4rem;
+  width: 80%;
+  margin: auto;
+
+  span.text {
+    align-self: center;
+    grid-area: text;
+  }
+
+  &.rotate {
+    mat-icon {
+      transform: rotateY(-180deg);
+    }
+  }
+
+  .icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    place-self: center;
+    grid-area: icon;
+    transform-origin: center;
+  }
+}

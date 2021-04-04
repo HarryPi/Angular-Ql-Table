@@ -28,3 +28,4 @@ export * from './lib/nav-sidebar/sidebar-nav-item';
 export * from './lib/nav-sidebar/nav-sidebar-item/sidebar-nav-item.component';
 
 export * from './lib/generic-sidebar/sidebar.index';
+export * from './lib/autocomplete/autocomplete.index';

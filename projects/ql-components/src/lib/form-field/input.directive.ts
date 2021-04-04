@@ -1,6 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, HostListener, OnDestroy, Optional, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { map, startWith, take, takeUntil, tap } from 'rxjs/operators';
 import { InputToken } from './input';
 
 @Directive({
@@ -34,6 +34,7 @@ export class InputDirective extends InputToken implements AfterContentInit, OnDe
             map(state => state === 'INVALID'),
             takeUntil(this._onDestroy)
         ).subscribe(this.hasError);
+        this.ngControl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(this.valueChange);
     }
 
     ngOnDestroy(): void {

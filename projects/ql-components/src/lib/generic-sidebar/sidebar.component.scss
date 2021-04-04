@@ -1,18 +1,36 @@
 @import "~@angular/material/theming";
 
 :host {
-    width: inherit;
-    height: inherit;
-    @include mat-elevation(1);
+  width: inherit;
+  height: inherit;
+  @include mat-elevation(1);
 
-    display: flex;
-    flex-flow: column;
+  display: flex;
+  flex-flow: column;
 
-    > ql-sidebar-header {
-        order: 0;
-    }
+  .is-collapsed {
+    width: 6.4rem;
+    height: 6.4rem;
+  }
 
-    > ql-sidebar-content {
-        order: 1;
-    }
+  > ql-sidebar-header {
+    order: 0;
+  }
+
+  > ql-sidebar-content {
+    order: 1;
+  }
+
+  > ql-sidebar-content {
+    order: 2;
+  }
+
+  .divider {
+    height: .05rem;
+    width: 80%;
+    display: block;
+    content: ' ';
+    margin: .4rem auto .4rem auto;
+
+  }
 }

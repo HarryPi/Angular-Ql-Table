@@ -1,0 +1,9 @@
+<span class='text'>
+	<ng-content></ng-content>
+</span>
+<div (click)='collapse()' class='icon'>
+	<mat-icon inline svgIcon='arrow-right' *ngIf='withDefaultIcon; else userIcon'></mat-icon>
+	<ng-template #userIcon>
+		<ng-content select='mat-icon'></ng-content>
+	</ng-template>
+</div>
