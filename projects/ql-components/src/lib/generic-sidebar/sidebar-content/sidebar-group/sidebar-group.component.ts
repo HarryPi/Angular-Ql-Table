@@ -58,7 +58,7 @@ export abstract class SidebarGroupToken extends Destroyable {
 })
 export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, OnChanges, AfterContentInit {
 
-  @ContentChild(MatIcon) icon: MatIcon;
+  @ContentChildren(MatIcon) icon: QueryList<MatIcon>;
 
   @Output() groupClicked: Subject<number>;
 
@@ -82,7 +82,7 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   }
 
   ngAfterContentInit(): void {
-    if (this.icon) {
+    if (this.icon.length > 0) {
       this._hasIcon = true;
     }
   }
@@ -120,4 +120,11 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
     this._alwaysOpen = value;
   }
 
+  get hasIcon(): boolean {
+    return this._hasIcon;
+  }
+
+  set hasIcon(value: boolean) {
+    this._hasIcon = value;
+  }
 }

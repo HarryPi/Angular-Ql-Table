@@ -1,7 +1,5 @@
-$group-item-padding: .2rem 5% .2rem 5%;
 
 :host {
-  width: 100%;
   display: block;
 
   &.has-icon {
@@ -20,10 +18,7 @@ $group-item-padding: .2rem 5% .2rem 5%;
   }
 
   .group-row {
-    padding: $group-item-padding;
     display: grid;
-    grid-template-areas: "text arrow";
-    grid-template-columns: .7fr .3fr;
     grid-gap: 0 .4rem;
 
     .icon {

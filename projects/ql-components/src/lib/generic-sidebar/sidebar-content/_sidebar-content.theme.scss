@@ -10,10 +10,15 @@
 
   $content-values: (
           group-child-padding: 3.2rem,
+          group-arrow-position: 'end',
+          group-row-space-between: .4rem,
           selected-border-color: mat-color($primary),
           item-padding: 0 0 0 5%,
           item-selected-border-width: .4rem,
-          item-selected-background-color: mat-color($primary, A100, 0.4)
+          item-selected-background-color: mat-color($primary, A100, 0.4),
+          row-height: 4rem,
+          row-width: 100%,
+          row-group-width: 100%
   );
 
   $content-values: map.merge($content-values, $overrides);
@@ -23,9 +28,31 @@
     @include ql-sidebar-group-theme($theme, $typo);
 
     ql-sidebar-group {
+      width: map.get($content-values, row-group-width);
+      margin-bottom: map.get($content-values, group-row-space-between);
+
+      .group-row {
+        grid-template-areas: "text arrow";
+        grid-template-columns: .8fr .2fr;
+      }
+
+      @if (map.get($content-values, group-arrow-position) == 'start') {
+        &.has-icon {
+          .group-row {
+            grid-template-areas: "arrow text icon"
+          }
+        }
+        .group-row {
+          grid-template-areas: "arrow text";
+          grid-template-columns: .2fr .8fr;
+        }
+      }
+
       ql-sidebar-item {
+        width: map.get($content-values, row-width);
+        padding-left: map.get($content-values, group-child-padding);
+
         .text {
-          padding-left: map.get($content-values, group-child-padding);
         }
       }
 
@@ -37,6 +64,7 @@
     }
 
     ql-sidebar-item {
+      width: map.get($content-values, row-width);
       transition-duration: 250ms;
       transition-property: background-color;
       transition-timing-function: linear;
@@ -56,6 +84,7 @@
 
       &.is-selected {
         background-color: map.get($content-values, item-selected-background-color);
+
         .border {
           // Note here we expect this theme to be called from sidebar theme not on its own
           // So we expect row-height to be in $overrides map but its not declared in defaults of content theme
