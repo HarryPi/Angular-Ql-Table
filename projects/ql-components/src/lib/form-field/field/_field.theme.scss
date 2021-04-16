@@ -1,8 +1,20 @@
-@mixin form-field-theme($theme, $input-height: 2rem, $input-padding: .4rem) {
+@mixin form-field-theme($theme, $swap: false) {
+  $input-height: 2rem!default;
+  $input-padding: 0.4rem!default;
+
   $config: mat-get-color-config($theme);
+
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
+
+  @if($swap) {
+    $primary: map-get($config, accent);
+    $ascent: map-get($config, primary);
+    $warn: map-get($config, warn);
+  }
+
+
 
   ql-field.invalid > div.input {
     border: .1rem solid mat-color($warn, 700, 0.7);

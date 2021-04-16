@@ -1,0 +1,38 @@
+@import "./sidebar-group/sidebar-group.theme";
+@import "sidebar-content.shared.theme";
+
+@mixin ql-sidebar-content-theme($theme, $typo: null) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  ql-sidebar-content {
+    @include ql-sidebar-group-theme($theme, $typo);
+
+    ql-sidebar-group {
+      ql-sidebar-item {
+        .text {
+          padding-left: 3.2rem;
+        }
+      }
+
+      .group-row {
+        &:hover {
+          @include hover-item($primary);
+        }
+      }
+    }
+
+    ql-sidebar-item {
+      .icon mat-icon {
+        fill: mat-color($primary);
+      }
+
+      &:hover {
+        @include hover-item($primary);
+      }
+    }
+  }
+
+}

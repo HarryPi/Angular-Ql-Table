@@ -1,15 +1,62 @@
-@mixin sidebar-theme($theme, $swapTheme: false) {
+@use "sass:map";
+@import "sidebar-content/sidebar-content.theme";
+@import "sidebar-header/sidebar-header.theme";
+
+@mixin sidebar-theme($theme, $typo: null, $reverse: false, $overrides: ()) {
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
+  $sidebar-values: (
+    sidebar-background: mat-color($ascent, 200, 0.4),
+    divider-background: mat-color($primary, 700)
+  );
+
+  $sidebar-values: map.merge($sidebar-values, $overrides);
+
+  @if($reverse) {
+      $primary: map-get($config, accent);
+      $ascent: map-get($config, primary);
+
+      $config: map.set($config, primary, $primary);
+      $config: map.set($config, ascent, $ascent);
+  }
+
   ql-sidebar {
-    @if($swapTheme) {
-      background-color: mat-color($ascent, 200, 0.4);
-    } @else {
-      background-color: mat-color($primary, 200, 0.4);
+    background-color: map.get($sidebar-values, sidebar-background);
+
+    .divider {
+      background-color: map.get($sidebar-values, divider-background);
     }
+
+    ql-sidebar-content {
+      > ql-sidebar-item {
+        display: grid;
+        grid-template-areas: "text icon";
+        grid-template-columns: minmax(.7fr, 1fr) minmax(0, .3fr);
+        grid-gap: 0 .4rem;
+        width: 100%;
+        padding: .8rem 5% 0 5%;
+        font-size: mat-font-size($typo, body-1);
+        font-family: mat-font-family($typo);
+        color: mat-color($primary);
+        fill: mat-color($primary);
+
+      }
+    }
+
+    ql-sidebar-collapse {
+      @if ($typo) {
+        font-size: mat-font-size($typo, body-1);
+        font-family: mat-font-family($typo);
+      }
+      color: mat-color($primary, 700);
+      fill: mat-color($primary, 700);
+    }
+
+    @include ql-sidebar-content-theme($config, $typo);
+    @include ql-sidebar-header-theme($config);
   }
 
 }

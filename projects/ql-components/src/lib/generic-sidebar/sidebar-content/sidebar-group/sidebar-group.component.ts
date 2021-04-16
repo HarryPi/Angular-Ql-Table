@@ -1,20 +1,24 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ContentChild, ContentChildren,
   HostBinding,
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, QueryList, Renderer2,
   SimpleChanges
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Destroyable } from '../../../common/destroyable';
 
 let id = 0;
 
-export abstract class SidebarGroupToken {
+export abstract class SidebarGroupToken extends Destroyable {
 
   public groupClicked: Subject<number>;
   protected _isExpanded: boolean;
@@ -30,6 +34,7 @@ export abstract class SidebarGroupToken {
   }
 
   protected constructor() {
+    super();
     this.id = id;
     id++;
   }
@@ -51,13 +56,16 @@ export abstract class SidebarGroupToken {
     ])
   ]
 })
-export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, OnChanges {
+export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, OnChanges, AfterContentInit {
+
+  @ContentChild(MatIcon) icon: MatIcon;
 
   @Output() groupClicked: Subject<number>;
 
-  @HostBinding('class.is-expanded')
-  private _shouldBeExpanded: boolean;
+  @HostBinding('class.has-icon')
+  private _hasIcon: boolean;
 
+  @HostBinding('class.is-expanded')
   protected _isExpanded: boolean;
   protected _alwaysOpen: boolean;
 
@@ -70,7 +78,15 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   }
 
   ngOnInit(): void {
+
   }
+
+  ngAfterContentInit(): void {
+    if (this.icon) {
+      this._hasIcon = true;
+    }
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Reflect.has(changes, 'isExpanded')) {

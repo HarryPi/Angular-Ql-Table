@@ -1,0 +1,7 @@
+@mixin hover-item($clr) {
+    transition-property: background-color;
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+
+    background-color: mat-color($clr, A100, 0.4);
+}

@@ -1,40 +1,58 @@
-:host {
-  display: grid;
-  grid-template-areas: "text arrow"
-                        "content content";
-  grid-template-columns: .7fr .3fr;
-  grid-gap: 0 .4rem;
-  width: 80%;
-  margin: .8rem auto 0 auto;
+$group-item-padding: .2rem 5% .2rem 5%;
 
-  &.is-expanded {
-    .arrow {
-      transform: rotate(0);
+:host {
+  width: 100%;
+  display: block;
+
+  &.has-icon {
+    .group-row {
+      grid-template-areas: "icon text arrow";
+      grid-template-columns: .2fr .6fr .2fr;
     }
   }
 
-  .arrow {
-    transition-duration: 250ms;
-    transition-property: transform;
-    transition-timing-function: linear;
-
-    width: 1.2rem;
-    height: 1.2rem;
-    grid-area: arrow;
-    justify-self: flex-end;
-    align-self: center;
-    transform: rotate(-90deg);
-
+  &.is-expanded {
+    .group-row {
+      .arrow {
+        transform: rotate(0);
+      }
+    }
   }
 
-  .text {
-    align-self: center;
-    grid-area: text;
+  .group-row {
+    padding: $group-item-padding;
+    display: grid;
+    grid-template-areas: "text arrow";
+    grid-template-columns: .7fr .3fr;
+    grid-gap: 0 .4rem;
+
+    .icon {
+      grid-area: icon;
+      height: 3.2rem;
+    }
+
+    .arrow {
+      transition-duration: 250ms;
+      transition-property: transform;
+      transition-timing-function: linear;
+
+      width: 1.2rem;
+      height: 1.2rem;
+      grid-area: arrow;
+      justify-self: flex-end;
+      align-self: center;
+      transform: rotate(-90deg);
+
+    }
+
+    .text {
+      align-self: center;
+      grid-area: text;
+    }
+
   }
 
   .group-content {
-    grid-area: content;
-    padding-left: 1.6rem;
 
     .margin {
       display: block;
@@ -43,4 +61,5 @@
       width: 100%;
     }
   }
+
 }
