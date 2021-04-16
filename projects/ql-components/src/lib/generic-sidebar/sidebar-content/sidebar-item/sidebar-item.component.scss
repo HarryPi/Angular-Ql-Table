@@ -1,26 +1,30 @@
 :host {
   display: grid;
-  grid-template-areas: "text text";
-  grid-template-columns: .2fr .8fr;
+  grid-template-areas: "text text border";
   grid-gap: .2rem;
   width: 100%;
+  align-items: center;
 
   &.has-icon {
-    grid-template-areas: "icon text";
-
-    .icon {
-      display: block;
-    }
-
+    grid-template-areas: "icon text border";
   }
 
   .icon {
-    display: none;
     grid-area: icon;
     height: 3.2rem;
   }
 
   .text {
     grid-area: text;
+  }
+
+  .border {
+    transition-property: height;
+    transition-timing-function: ease-out;
+    transition-duration: 150ms;
+
+    width: 100%;
+
+    grid-area: border;
   }
 }

@@ -32,9 +32,12 @@ $group-item-padding: .2rem 5% .2rem 5%;
     }
 
     .arrow {
+      place-self: center;
+
       transition-duration: 250ms;
       transition-property: transform;
       transition-timing-function: linear;
+      transform-origin: center;
 
       width: 1.2rem;
       height: 1.2rem;

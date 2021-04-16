@@ -1,4 +1,4 @@
-@mixin ql-sidebar-header-theme($theme) {
+@mixin ql-sidebar-header-theme($theme, $overrides: ()) {
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);

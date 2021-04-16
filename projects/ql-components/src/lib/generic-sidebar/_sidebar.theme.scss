@@ -9,18 +9,19 @@
   $warn: map-get($config, warn);
 
   $sidebar-values: (
-    sidebar-background: mat-color($ascent, 200, 0.4),
-    divider-background: mat-color($primary, 700)
+          sidebar-background: mat-color($ascent, 200, 0.4),
+          divider-background: mat-color($primary, 700),
+          row-height: 4rem,
   );
 
   $sidebar-values: map.merge($sidebar-values, $overrides);
 
-  @if($reverse) {
-      $primary: map-get($config, accent);
-      $ascent: map-get($config, primary);
+  @if ($reverse) {
+    $primary: map-get($config, accent);
+    $ascent: map-get($config, primary);
 
-      $config: map.set($config, primary, $primary);
-      $config: map.set($config, ascent, $ascent);
+    $config: map.set($config, primary, $primary);
+    $config: map.set($config, ascent, $ascent);
   }
 
   ql-sidebar {
@@ -28,22 +29,6 @@
 
     .divider {
       background-color: map.get($sidebar-values, divider-background);
-    }
-
-    ql-sidebar-content {
-      > ql-sidebar-item {
-        display: grid;
-        grid-template-areas: "text icon";
-        grid-template-columns: minmax(.7fr, 1fr) minmax(0, .3fr);
-        grid-gap: 0 .4rem;
-        width: 100%;
-        padding: .8rem 5% 0 5%;
-        font-size: mat-font-size($typo, body-1);
-        font-family: mat-font-family($typo);
-        color: mat-color($primary);
-        fill: mat-color($primary);
-
-      }
     }
 
     ql-sidebar-collapse {
@@ -55,7 +40,7 @@
       fill: mat-color($primary, 700);
     }
 
-    @include ql-sidebar-content-theme($config, $typo);
+    @include ql-sidebar-content-theme($config, $typo, $sidebar-values);
     @include ql-sidebar-header-theme($config);
   }
 

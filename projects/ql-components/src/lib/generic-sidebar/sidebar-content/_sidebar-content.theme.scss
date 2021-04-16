@@ -1,38 +1,74 @@
+@use "sass:map";
 @import "./sidebar-group/sidebar-group.theme";
 @import "sidebar-content.shared.theme";
 
-@mixin ql-sidebar-content-theme($theme, $typo: null) {
+@mixin ql-sidebar-content-theme($theme, $typo: null, $overrides: ()) {
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
+  $content-values: (
+          group-child-padding: 3.2rem,
+          selected-border-color: mat-color($primary),
+          item-padding: 0 0 0 5%,
+          item-selected-border-width: .4rem,
+          item-selected-background-color: mat-color($primary, A100, 0.4)
+  );
+
+  $content-values: map.merge($content-values, $overrides);
+
   ql-sidebar-content {
+
     @include ql-sidebar-group-theme($theme, $typo);
 
     ql-sidebar-group {
       ql-sidebar-item {
         .text {
-          padding-left: 3.2rem;
+          padding-left: map.get($content-values, group-child-padding);
         }
       }
 
       .group-row {
         &:hover {
-          @include hover-item($primary);
+          @include hover-item($ascent);
         }
       }
     }
 
     ql-sidebar-item {
-      .icon mat-icon {
-        fill: mat-color($primary);
+      transition-duration: 250ms;
+      transition-property: background-color;
+      transition-timing-function: linear;
+
+      height: map.get($content-values, row-height);
+      padding: map.get($content-values, item-padding);
+      font-size: mat-font-size($typo, body-1);
+      font-family: mat-font-family($typo);
+      color: mat-color($primary);
+      fill: mat-color($primary);
+      grid-template-columns: .2fr .8fr map.get($content-values, item-selected-border-width);
+      background-color: inherit;
+
+      .border {
+        height: 0;
+      }
+
+      &.is-selected {
+        background-color: map.get($content-values, item-selected-background-color);
+        .border {
+          // Note here we expect this theme to be called from sidebar theme not on its own
+          // So we expect row-height to be in $overrides map but its not declared in defaults of content theme
+          height: map.get($content-values, row-height);
+          background-color: map.get($content-values, selected-border-color);
+        }
       }
 
       &:hover {
-        @include hover-item($primary);
+        @include hover-item($ascent);
       }
     }
   }
-
 }
+
+

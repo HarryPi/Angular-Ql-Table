@@ -1,6 +1,11 @@
 <span class='text'>
 	<ng-content></ng-content>
 </span>
-<div class='icon'>
+<div *ngIf='hasIcon'
+	 class='icon'>
 	<ng-content select='mat-icon'></ng-content>
 </div>
+<div class='border'>
+
+</div>
+

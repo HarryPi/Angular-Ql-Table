@@ -1,0 +1,22 @@
+@use "sass:map";
+
+@mixin ql-toolbar-theme($theme, $overrides: ()) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  $toolbar-values: (
+          height: 5vh,
+          width: 100vw,
+          background-color: mat-color($primary)
+  );
+
+  $content-values: map.merge($toolbar-values, $overrides);
+
+  ql-toolbar {
+    height: map.get($toolbar-values, height);
+    width: map.get($toolbar-values, width);
+    background-color: map.get($toolbar-values, background-color);
+  }
+}
