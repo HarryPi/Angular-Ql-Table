@@ -1,12 +1,24 @@
-@mixin ql-sidebar-group-theme($theme, $typo) {
+@use "sass:map";
+
+@mixin ql-sidebar-group-theme($theme, $typo, $overrides: ()) {
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
+  $content-values: (
+
+  );
+
   ql-sidebar-group {
     color: mat-color($primary);
     fill: mat-color($primary);
+
+    &.has-icon {
+      .group-row {
+        max-height: map.get($content-values, row-height);
+      }
+    }
 
     .text {
       @if ($typo != null) {

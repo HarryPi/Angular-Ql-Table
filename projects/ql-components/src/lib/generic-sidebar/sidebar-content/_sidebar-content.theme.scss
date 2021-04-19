@@ -52,8 +52,6 @@
         width: map.get($content-values, row-width);
         padding-left: map.get($content-values, group-child-padding);
 
-        .text {
-        }
       }
 
       .group-row {
@@ -70,13 +68,16 @@
       transition-timing-function: linear;
 
       height: map.get($content-values, row-height);
-      padding: map.get($content-values, item-padding);
       font-size: mat-font-size($typo, body-1);
       font-family: mat-font-family($typo);
       color: mat-color($primary);
       fill: mat-color($primary);
       grid-template-columns: .2fr .8fr map.get($content-values, item-selected-border-width);
       background-color: inherit;
+
+      .icon {
+        max-height: map.get($content-values, row-height);
+      }
 
       .border {
         height: 0;

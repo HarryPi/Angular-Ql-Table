@@ -23,7 +23,10 @@
 
     .icon {
       grid-area: icon;
-      height: 3.2rem;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
     }
 
     .arrow {
