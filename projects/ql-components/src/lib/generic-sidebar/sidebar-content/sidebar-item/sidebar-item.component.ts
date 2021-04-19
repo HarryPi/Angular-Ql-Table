@@ -4,6 +4,11 @@ import { MatIcon } from '@angular/material/icon';
 export abstract class SidebarItemToken {
   protected _isSelected = false;
 
+  protected abstract _isSidebarCollapsed: boolean;
+
+  abstract set isSidebarCollapsed(value: boolean);
+  abstract get isSidebarCollapsed(): boolean;
+
   get isSelected(): boolean {
     return this._isSelected;
   }
@@ -24,6 +29,9 @@ export abstract class SidebarItemToken {
 export class SidebarItemComponent extends SidebarItemToken implements OnInit, AfterContentInit {
 
   @ContentChild(MatIcon) icon: MatIcon | undefined;
+
+  @HostBinding('class.is-collapsed')
+  protected _isSidebarCollapsed: boolean;
 
   @HostBinding('class.is-selected')
   protected _isSelected = false;
@@ -61,5 +69,14 @@ export class SidebarItemComponent extends SidebarItemToken implements OnInit, Af
 
   set hasIcon(value: boolean) {
     this._hasIcon = value;
+  }
+
+  get isSidebarCollapsed(): boolean {
+    return this._isSidebarCollapsed;
+  }
+
+  @Input()
+  set isSidebarCollapsed(value: boolean) {
+    this._isSidebarCollapsed = value;
   }
 }

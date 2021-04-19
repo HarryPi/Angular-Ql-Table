@@ -1,6 +1,7 @@
 @use "sass:map";
 @import "sidebar-content/sidebar-content.theme";
 @import "sidebar-header/sidebar-header.theme";
+@import "sidebar-collapse/sidebar-collapse.theme";
 
 @mixin sidebar-theme($theme, $typo: null, $reverse: false, $overrides: ()) {
   $config: mat-get-color-config($theme);
@@ -11,6 +12,7 @@
   $sidebar-values: (
           sidebar-background: mat-color($ascent, 200, 0.4),
           divider-background: mat-color($primary, 700),
+          sidebar-minimized-width: 4rem
   );
 
   $sidebar-values: map.merge($sidebar-values, $overrides);
@@ -24,6 +26,10 @@
   }
 
   ql-sidebar {
+    &.is-collapsed {
+      width: map.get($sidebar-values, sidebar-minimized-width);
+    }
+
     background-color: map.get($sidebar-values, sidebar-background);
 
     .divider {
@@ -37,6 +43,8 @@
       }
       color: mat-color($primary, 700);
       fill: mat-color($primary, 700);
+
+      @include ql-sidebar-collapse-theme($config, $sidebar-values);
     }
 
     @include ql-sidebar-content-theme($config, $typo, $sidebar-values);

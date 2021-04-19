@@ -10,6 +10,8 @@
 
   );
 
+  $content-values: map.merge($content-values, $overrides);
+
   ql-sidebar-group {
     color: mat-color($primary);
     fill: mat-color($primary);
@@ -28,6 +30,8 @@
     }
 
     .group-content {
+      background-color: map.get($content-values, group-open-background-color);
+
       ql-sidebar-item {
         @if ($typo != null) {
           font-size: mat-font-size($typo, caption);

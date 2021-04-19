@@ -1,10 +1,11 @@
 @import "~@angular/material/theming";
 
 :host {
-  width: inherit;
-  height: inherit;
   @include mat-elevation(1);
-
+  width: 100%;
+  transition-property: width;
+  transition-duration: 350ms;
+  transition-timing-function: linear;
   display: flex;
   flex-flow: column;
 

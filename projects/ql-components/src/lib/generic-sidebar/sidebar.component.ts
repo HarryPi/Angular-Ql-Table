@@ -1,6 +1,8 @@
-import { AfterContentInit, Component, ContentChild, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ContentChildren, HostBinding, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 import { Destroyable } from '../common/destroyable';
 import { SidebarCollapseToken } from './sidebar-collapse/sidebar-collapse.component';
+import { SidebarContentComponent } from './sidebar-content/sidebar-content.component';
 
 @Component({
   selector: 'ql-sidebar',
@@ -11,7 +13,10 @@ export class SidebarComponent extends Destroyable implements OnInit, AfterConten
 
   hasDivider: boolean;
 
+  private _isCollapsed = false;
+
   @ContentChild(SidebarCollapseToken) sidebarCollapse: SidebarCollapseToken;
+  @ContentChild(SidebarContentComponent) content: SidebarContentComponent;
 
   constructor() {
     super();
@@ -23,7 +28,22 @@ export class SidebarComponent extends Destroyable implements OnInit, AfterConten
   ngAfterContentInit(): void {
     if (this.sidebarCollapse) {
       this.hasDivider = true;
+      this.sidebarCollapse.collapseChange.pipe(takeUntil(this._onDestroy)).subscribe(next => {
+        this.isCollapsed = next;
+      });
     }
   }
 
+
+  get isCollapsed(): boolean {
+    return this._isCollapsed;
+  }
+
+  @HostBinding('class.is-collapsed')
+  set isCollapsed(value: boolean) {
+    this._isCollapsed = value;
+    if (this.content) {
+      this.content.isCollapsed = value;
+    }
+  }
 }

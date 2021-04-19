@@ -3,6 +3,17 @@
   display: block;
 
   &.has-icon {
+    &.is-collapsed {
+      .group-row {
+        grid-gap: 0 0;
+        grid-template-areas: "icon text arrow";
+        grid-template-columns: .8fr 0 .2fr;
+
+        .text {
+          display: none;
+        }
+      }
+    }
     .group-row {
       grid-template-areas: "icon text arrow";
       grid-template-columns: .2fr .6fr .2fr;

@@ -2,7 +2,7 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
+  ContentChildren, Input,
   OnChanges,
   OnInit,
   QueryList,
@@ -14,6 +14,7 @@ import { ReplaySubject } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
 import { Destroyable } from '../../common/destroyable';
 import { SidebarGroupToken } from './sidebar-group/sidebar-group.component';
+import { SidebarItemToken } from './sidebar-item/sidebar-item.component';
 
 @Component({
   selector: 'ql-sidebar-content',
@@ -23,6 +24,9 @@ import { SidebarGroupToken } from './sidebar-group/sidebar-group.component';
 export class SidebarContentComponent extends Destroyable implements OnInit, AfterContentInit, OnChanges {
 
   @ContentChildren(SidebarGroupToken) groups: QueryList<SidebarGroupToken>;
+  @ContentChildren(SidebarItemToken) items: QueryList<SidebarItemToken>;
+
+  private _isCollapsed = false;
 
   private _groupObserver: ReplaySubject<boolean>;
 
@@ -83,5 +87,23 @@ export class SidebarContentComponent extends Destroyable implements OnInit, Afte
         }),
         takeUntil(this._groupObserver)
     ).subscribe());
+  }
+
+
+  get isCollapsed(): boolean {
+    return this._isCollapsed;
+  }
+
+  @Input()
+  set isCollapsed(value: boolean) {
+    this._isCollapsed = value;
+
+    this.groups.forEach(group => {
+      group.isSidebarCollapsed = value;
+    });
+
+    this.items.forEach(item => {
+      item.isSidebarCollapsed = value;
+    });
   }
 }

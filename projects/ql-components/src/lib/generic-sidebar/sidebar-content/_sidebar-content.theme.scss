@@ -12,6 +12,7 @@
           group-child-padding: 3.2rem,
           group-arrow-position: 'end',
           group-row-space-between: .4rem,
+          group-open-background-color: mat-color($primary, 200, 0.1),
           selected-border-color: mat-color($primary),
           item-padding: 0 0 0 5%,
           item-selected-border-width: .4rem,
@@ -25,7 +26,7 @@
 
   ql-sidebar-content {
 
-    @include ql-sidebar-group-theme($theme, $typo);
+    @include ql-sidebar-group-theme($theme, $typo, $content-values);
 
     ql-sidebar-group {
       width: map.get($content-values, row-group-width);
@@ -49,9 +50,14 @@
       }
 
       ql-sidebar-item {
+        @include sidebar-content-item($theme, $typo, $content-values);
+
         width: map.get($content-values, row-width);
         padding-left: map.get($content-values, group-child-padding);
 
+        &.is-collapsed {
+          padding-left: 0;
+        }
       }
 
       .group-row {
@@ -62,41 +68,7 @@
     }
 
     ql-sidebar-item {
-      width: map.get($content-values, row-width);
-      transition-duration: 250ms;
-      transition-property: background-color;
-      transition-timing-function: linear;
-
-      height: map.get($content-values, row-height);
-      font-size: mat-font-size($typo, body-1);
-      font-family: mat-font-family($typo);
-      color: mat-color($primary);
-      fill: mat-color($primary);
-      grid-template-columns: .2fr .8fr map.get($content-values, item-selected-border-width);
-      background-color: inherit;
-
-      .icon {
-        max-height: map.get($content-values, row-height);
-      }
-
-      .border {
-        height: 0;
-      }
-
-      &.is-selected {
-        background-color: map.get($content-values, item-selected-background-color);
-
-        .border {
-          // Note here we expect this theme to be called from sidebar theme not on its own
-          // So we expect row-height to be in $overrides map but its not declared in defaults of content theme
-          height: map.get($content-values, row-height);
-          background-color: map.get($content-values, selected-border-color);
-        }
-      }
-
-      &:hover {
-        @include hover-item($ascent);
-      }
+      @include sidebar-content-item($theme, $typo, $content-values)
     }
   }
 }

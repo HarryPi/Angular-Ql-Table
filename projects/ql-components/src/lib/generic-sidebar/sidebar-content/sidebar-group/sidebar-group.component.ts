@@ -3,26 +3,30 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ContentChild, ContentChildren,
+  Component,
+  ContentChildren,
   HostBinding,
   Input,
   OnChanges,
   OnInit,
-  Output, QueryList, Renderer2,
+  Output,
+  QueryList,
   SimpleChanges
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Destroyable } from '../../../common/destroyable';
+import { SidebarItemToken } from '../sidebar-item/sidebar-item.component';
 
 let id = 0;
 
 export abstract class SidebarGroupToken extends Destroyable {
 
   public groupClicked: Subject<number>;
-  protected _isExpanded: boolean;
   public id: number;
+
+  protected abstract _isSidebarCollapsed = false;
+  protected abstract _isExpanded: boolean;
 
 
   get isExpanded(): boolean {
@@ -32,6 +36,9 @@ export abstract class SidebarGroupToken extends Destroyable {
   set isExpanded(value: boolean) {
     this._isExpanded = value;
   }
+
+  abstract get isSidebarCollapsed(): boolean;
+  abstract set isSidebarCollapsed(value: boolean);
 
   protected constructor() {
     super();
@@ -59,14 +66,20 @@ export abstract class SidebarGroupToken extends Destroyable {
 export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, OnChanges, AfterContentInit {
 
   @ContentChildren(MatIcon) icon: QueryList<MatIcon>;
+  @ContentChildren(SidebarItemToken) items: QueryList<SidebarItemToken>;
 
   @Output() groupClicked: Subject<number>;
+  tooltipText: string;
 
   @HostBinding('class.has-icon')
   private _hasIcon: boolean;
 
   @HostBinding('class.is-expanded')
   protected _isExpanded: boolean;
+
+  @HostBinding('class.is-collapsed')
+  protected _isSidebarCollapsed = false;
+
   protected _alwaysOpen: boolean;
 
 
@@ -126,5 +139,17 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
 
   set hasIcon(value: boolean) {
     this._hasIcon = value;
+  }
+
+
+  get isSidebarCollapsed(): boolean {
+    return this._isSidebarCollapsed;
+  }
+
+  @Input()
+  set isSidebarCollapsed(value: boolean) {
+    this._isSidebarCollapsed = value;
+
+    this.items.forEach(item => item.isSidebarCollapsed = value);
   }
 }

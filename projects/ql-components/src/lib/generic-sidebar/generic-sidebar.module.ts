@@ -22,7 +22,7 @@ import { SidebarCollapseComponent } from './sidebar-collapse/sidebar-collapse.co
   ],
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports: [
       SidebarComponent,

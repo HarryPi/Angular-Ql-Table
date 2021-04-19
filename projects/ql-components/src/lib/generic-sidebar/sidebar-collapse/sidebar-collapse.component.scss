@@ -2,9 +2,19 @@
   display: grid;
   grid-template-areas: "text icon";
   grid-template-columns: .7fr .3fr;
-  height: 2.4rem;
   width: 80%;
-  margin: auto;
+
+  &.is-collapsed {
+    grid-template-columns: 0 1fr;
+
+    .icon {
+      transform: rotateY(180deg);
+    }
+
+    .text {
+      display: none;
+    }
+  }
 
   span.text {
     align-self: center;
@@ -18,10 +28,14 @@
   }
 
   .icon {
-    width: 1.4rem;
-    height: 1.4rem;
+    transition-property: transform;
+    transition-duration: 350ms;
+    transition-timing-function: ease-in;
+    transition-delay: 250ms;
+
     place-self: center;
     grid-area: icon;
     transform-origin: center;
+    transform: rotateY(0deg);
   }
 }

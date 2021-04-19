@@ -1,0 +1,26 @@
+@use "sass:map";
+
+@mixin ql-sidebar-collapse-theme($theme, $sidebar-values: ()) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  $collapse-values: (
+    collapse-row-height: 2.4rem,
+          collapse-margin: 0.8rem auto
+  );
+
+  height: map.get($collapse-values, collapse-row-height);
+  margin: map.get($collapse-values, collapse-margin);
+
+  .icon {
+    height: map.get($collapse-values, collapse-row-height);
+
+    > mat-icon {
+      height: map.get($collapse-values, collapse-row-height);
+    }
+  }
+
+
+}

@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
@@ -7,19 +7,15 @@ export abstract class SidebarCollapseToken {
 
   public abstract withDefaultIcon: boolean;
 
-  protected isCollapsed: boolean;
+  protected _isCollapsed: boolean;
 
-  constructor() {
-    this.isCollapsed = false;
-    this.collapseChange = new Subject<boolean>();
+  protected constructor() {
+    this._isCollapsed = false;
   }
 
-  collapseChange: Subject<boolean>;
+  abstract collapseChange: Subject<boolean>;
 
-  collapse(): void {
-    this.isCollapsed = !this.isCollapsed;
-    this.collapseChange.next(this.isCollapsed);
-  }
+  abstract collapse(): void;
 }
 
 @Component({
@@ -32,8 +28,14 @@ export abstract class SidebarCollapseToken {
 })
 export class SidebarCollapseComponent extends SidebarCollapseToken implements OnInit {
 
+  @Output()
+  public collapseChange: Subject<boolean>;
+
+  @HostBinding('class.is-collapsed')
+  protected _isCollapsed: boolean;
+
   @HostBinding('class.rotate')
-  @Input() withDefaultIcon: boolean;
+  @Input() withDefaultIcon = true;
 
   constructor(
       private _matIconRegistry: MatIconRegistry,
@@ -44,10 +46,24 @@ export class SidebarCollapseComponent extends SidebarCollapseToken implements On
         'arrow-right',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/arrow-right.svg')
     );
+    this.collapseChange = new Subject<boolean>();
+
   }
 
   ngOnInit(): void {
   }
 
+  collapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+    this.collapseChange.next(this.isCollapsed);
+  }
 
+  get isCollapsed(): boolean {
+    return this._isCollapsed;
+  }
+
+  @Input()
+  set isCollapsed(value: boolean) {
+    this._isCollapsed = value;
+  }
 }
