@@ -30,3 +30,4 @@ export * from './lib/nav-sidebar/nav-sidebar-item/sidebar-nav-item.component';
 export * from './lib/generic-sidebar/sidebar.index';
 export * from './lib/autocomplete/autocomplete.index';
 export * from './lib/generic-toolbar/toolbar.index';
+export * from './lib/ql-table/table.index';

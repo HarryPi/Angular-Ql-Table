@@ -13,7 +13,7 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() disabled: boolean;
   @Input() isLoading: boolean;
-  @Input() color: 'primary' | 'ascent' | 'simple';
+  @Input() color: 'primary' | 'ascent' | 'simple' | 'warn';
 
 
   constructor(
@@ -21,10 +21,10 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
       private _matIconRegistry: MatIconRegistry,
       private _domSanitizer: DomSanitizer
   ) {
-      this._matIconRegistry.addSvgIcon(
-          'spinner',
-          this._domSanitizer.bypassSecurityTrustResourceUrl('assets/spinner.svg')
-      );
+    this._matIconRegistry.addSvgIcon(
+        'spinner',
+        this._domSanitizer.bypassSecurityTrustResourceUrl('assets/spinner.svg')
+    );
 
   }
 

@@ -44,7 +44,6 @@ export class SidebarItemComponent extends SidebarItemToken implements OnInit, Af
   }
 
   ngOnInit(): void {
-    console.log(this.isSelected);
   }
 
   ngAfterContentInit(): void {

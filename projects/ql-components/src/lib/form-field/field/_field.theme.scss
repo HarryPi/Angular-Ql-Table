@@ -1,4 +1,4 @@
-@mixin form-field-theme($theme, $swap: false) {
+@mixin form-field-theme($theme, $typo: null, $swap: false) {
   $input-height: 2rem!default;
   $input-padding: 0.4rem!default;
 
@@ -58,16 +58,25 @@
       margin: 0;
       color: mat-color($primary, 700, 1);
       width: 100%;
+
+      @if($typo) {
+        @include mat-typography-level-to-styles($typo, body-1);
+      }
     }
   }
   ql-field > div.label {
     color: mat-color($ascent, 700);
+    @if($typo) {
+      @include mat-typography-level-to-styles($typo, body-1);
+    }
   }
   ql-field > div.error {
     transition-property: width;
     transition-duration: 350ms;
     transition-timing-function: linear;
-
+    @if($typo) {
+      @include mat-typography-level-to-styles($typo, body-2);
+    }
     width: 0;
     transform: translateX(-100%);
     opacity: 0;

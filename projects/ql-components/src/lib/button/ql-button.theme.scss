@@ -15,6 +15,8 @@
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
+  @include mat-ripple-theme($theme);
+
   .ql-button {
     transition-property: border, box-shadow;
     transition-duration: 250ms;
@@ -51,6 +53,19 @@
       }
       .ql-button-spinner {
         fill: mat-color($ascent, 700);
+      }
+    }
+
+    &.warn {
+      background-color: mat-color($warn, 700);
+      color: mat-contrast($warn, 700);
+      border: .1rem solid mat-color($warn, 400, .7);
+
+      &.disabled {
+        color: mat-color($warn, 700);
+      }
+      .ql-button-spinner {
+        fill: mat-color($warn, 700);
       }
     }
   }

@@ -15,6 +15,9 @@
       "ql",
       "camelCase"
     ],
+    "no-host-metadata-property": [
+      false
+    ],
     "component-selector": [
       true,
       "element",

@@ -1,0 +1,9 @@
+@function if-css-variable-set-or-exists($variable) {
+  $temp: $variable;
+
+  @if($temp or $temp != null) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}

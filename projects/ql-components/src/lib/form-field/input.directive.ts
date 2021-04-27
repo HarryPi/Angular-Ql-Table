@@ -1,6 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, HostListener, OnDestroy, Optional, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { map, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { InputToken } from './input';
 
 @Directive({

@@ -1,0 +1,116 @@
+@use "sass:map";
+
+@keyframes hourglass-flip {
+  0% {
+    transform: rotate(0deg) scale(0.5);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(0.5);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(0.5);
+  }
+
+}
+
+@mixin ql-table-theme($theme, $typo: null, $reverse: false, $overrides: ()) {
+  table,
+  thead,
+  tbody,
+  tfoot,
+  tr,
+  th,
+  td {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-collapse: inherit;
+    border-spacing: 0;
+    border-color: inherit;
+    vertical-align: inherit;
+    text-align: left;
+    font-weight: inherit;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+  }
+
+  th, td {
+    display: inline;
+  }
+
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  $table-values: (
+          min-table-height: 30vh,
+  );
+
+  $table-values: map.merge($table-values, $overrides);
+
+  @if ($reverse) {
+    $primary: map-get($config, accent);
+    $ascent: map-get($config, primary);
+
+    $config: map.set($config, primary, $primary);
+    $config: map.set($config, ascent, $ascent);
+  }
+
+  ql-table {
+    min-height: var(--min-table-height, map.get($table-values, min-table-height));
+    position: relative;
+
+    .overlay {
+
+      &.hidden {
+        display: none;
+      }
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: inherit;
+      background-color: lightgrey;
+      opacity: 0.4;
+
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+
+      mat-icon {
+        fill: mat-color($primary);
+        animation:  3s hourglass-flip infinite forwards;
+      }
+    }
+
+    table {
+      min-height: inherit;
+    }
+
+    th, td {
+      padding: .8rem;
+      border-bottom: solid 0.1rem mat-color($ascent, 50, 0.8);
+
+      @if ($typo != null) {
+        font-size: mat-font-size($typo, body-1);
+        font-family: mat-font-family($typo);
+        font-weight: unset;
+      }
+    }
+
+    ql-thead {
+      tr {
+        background-color: mat-color($primary, 50, 0.5);
+      }
+    }
+  }
+}
+

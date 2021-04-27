@@ -1,6 +1,6 @@
 {
-  "name": "image-drawer",
-  "version": "0.0.1",
+  "name": "image-drawer-ng",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^11.0.0",
     "@angular/material": "^11.0.0",
