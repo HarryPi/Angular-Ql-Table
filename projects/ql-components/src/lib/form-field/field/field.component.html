@@ -3,9 +3,10 @@
         <ng-content select="ql-label"></ng-content>
     </label>
 </div>
-<div class="input">
+<div #inputDiv class="input">
     <ng-content select="[qlInput]"></ng-content>
     <ng-content select="[qlIcon]"></ng-content>
+    <ng-content select="mat-datepicker-toggle"></ng-content>
 </div>
 <div [@invalid]="inputError ? 'error' : 'no-error'"
      *ngIf="inputError"

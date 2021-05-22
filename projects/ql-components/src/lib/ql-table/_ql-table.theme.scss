@@ -16,33 +16,6 @@
 }
 
 @mixin ql-table-theme($theme, $typo: null, $reverse: false, $overrides: ()) {
-  table,
-  thead,
-  tbody,
-  tfoot,
-  tr,
-  th,
-  td {
-    display: block;
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-collapse: inherit;
-    border-spacing: 0;
-    border-color: inherit;
-    vertical-align: inherit;
-    text-align: left;
-    font-weight: inherit;
-    -webkit-border-horizontal-spacing: 0;
-    -webkit-border-vertical-spacing: 0;
-  }
-
-  th, td {
-    display: inline;
-  }
-
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
@@ -68,31 +41,35 @@
 
     .overlay {
 
-      &.hidden {
-        display: none;
-      }
-
+      width: calc(var(--table-width) * 1px);
+      height: calc(var(--table-height) * 1px);
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%;
-      width: inherit;
-      background-color: lightgrey;
-      opacity: 0.4;
 
       display: flex;
-      flex-flow: row;
+      flex-flow: row wrap;
       justify-content: center;
       align-items: center;
 
       mat-icon {
         fill: mat-color($primary);
-        animation:  3s hourglass-flip infinite forwards;
+        transform: scale(0.5);
+      }
+
+      &.animating {
+        background-color: lightgrey;
+        opacity: 0.4;
+
+        mat-icon {
+          animation:  3s hourglass-flip infinite forwards;
+        }
       }
     }
 
     table {
       min-height: inherit;
+      width: 100%;
     }
 
     th, td {

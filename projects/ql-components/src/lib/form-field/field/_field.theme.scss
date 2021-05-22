@@ -1,6 +1,6 @@
 @mixin form-field-theme($theme, $typo: null, $swap: false) {
-  $input-height: 2rem!default;
-  $input-padding: 0.4rem!default;
+  $input-height: 2rem !default;
+  $input-padding: 0.4rem !default;
 
   $config: mat-get-color-config($theme);
 
@@ -8,12 +8,11 @@
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
-  @if($swap) {
+  @if ($swap) {
     $primary: map-get($config, accent);
     $ascent: map-get($config, primary);
     $warn: map-get($config, warn);
   }
-
 
 
   ql-field.invalid > div.input {
@@ -23,9 +22,10 @@
       border: .1rem solid mat-color($warn, 700, 0.7);
       box-shadow: 0 0 .15rem .02rem mat-color($warn, 300, 1);
     }
-  };
+  }
+;
 
-  ql-field > div.input  {
+  ql-field > div.input {
     transition-property: border, box-shadow;
     transition-duration: 250ms;
     transition-timing-function: linear;
@@ -39,6 +39,20 @@
     border: .1rem solid mat-color($primary, 700, 0.4);
     outline: none;
     border-radius: .2rem;
+
+    mat-datepicker-toggle {
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+      }
+    }
 
     &:hover {
       border: .1rem solid mat-color($primary, 700, 0.7);
@@ -59,14 +73,14 @@
       color: mat-color($primary, 700, 1);
       width: 100%;
 
-      @if($typo) {
+      @if ($typo) {
         @include mat-typography-level-to-styles($typo, body-1);
       }
     }
   }
   ql-field > div.label {
     color: mat-color($ascent, 700);
-    @if($typo) {
+    @if ($typo) {
       @include mat-typography-level-to-styles($typo, body-1);
     }
   }
@@ -74,7 +88,7 @@
     transition-property: width;
     transition-duration: 350ms;
     transition-timing-function: linear;
-    @if($typo) {
+    @if ($typo) {
       @include mat-typography-level-to-styles($typo, body-2);
     }
     width: 0;
@@ -82,4 +96,26 @@
     opacity: 0;
     color: mat-color($warn, 700);
   }
+
+  mat-select {
+
+    .mat-select-trigger {
+      width: 100%;
+      height: 100%;
+
+      .mat-select-value {
+        @if ($typo) {
+          @include mat-typography-level-to-styles($typo, body-2);
+        }
+      }
+    }
+  }
+
+  .mat-option-text {
+    @if ($typo) {
+      @include mat-typography-level-to-styles($typo, body-2);
+    }
+  }
+
 }
+

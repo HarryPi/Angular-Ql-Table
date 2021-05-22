@@ -1,8 +1,16 @@
 <table>
 	<div #overlay
-		 class='overlay'>
+		 *ngIf='isLoading'
+		 class='overlay animating'>
 		<mat-icon svgIcon='hourglass'
 				  inline></mat-icon>
+	</div>
+	<div #emptyOverlay
+		 class='overlay'
+		 *ngIf='isEmpty'>
+		<mat-icon inline
+				  svgIcon='emptyTable'></mat-icon>
+		<span class='mat-h3 mat-subheader'>No data</span>
 	</div>
 	<ng-content>
 

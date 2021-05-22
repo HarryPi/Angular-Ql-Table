@@ -1,6 +1,6 @@
 import {
   AfterContentInit, AfterViewInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild, ElementRef,
   HostBinding,
@@ -30,11 +30,21 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   @HostBinding('style.--min-table-width')
   minWidth?: number;
 
+  @HostBinding('style.--table-width')
+  private _tableWidth: number;
+
+  @HostBinding('style.--table-height')
+  private _tableHeight: number;
+
   @Input() qlData: T[] | null;
   @Input() isLoading: boolean;
+  @Input() isEmpty: boolean;
 
   @ViewChild('overlay')
   overlayRef!: ElementRef<HTMLDivElement>;
+
+  @ViewChild('emptyOverlay')
+  emptyOverlayRef!: ElementRef<HTMLDivElement>;
 
   @ContentChild(THeadToken) tHead: THeadToken;
 
@@ -43,34 +53,40 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   @HostBinding('style.--col-count')
   private _colCount = 0;
 
+
   constructor(
       private _matIconRegistry: MatIconRegistry,
       private _domSanitizer: DomSanitizer,
       private _self: ElementRef<HTMLElement>,
-      private _renderer: Renderer2
+      private _renderer: Renderer2,
+      private _changeRef: ChangeDetectorRef
   ) {
     this.qlData = [];
+    this.isEmpty = true;
     this._matIconRegistry.addSvgIcon(
         'hourglass',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/hourglass.svg')
     );
+    this._matIconRegistry.addSvgIcon(
+        'emptyTable',
+        this._domSanitizer.bypassSecurityTrustResourceUrl('assets/empty-table.svg')
+    );
   }
 
   ngOnInit(): void {
-    this.data = [...this.qlData] as const;
+    this.data = [...this.qlData ?? []] as const;
+
+    this.isEmpty = this.data.length === 0 && !this.isLoading;
+
+
+    const element: HTMLElement = this._self.nativeElement;
+    this._tableWidth = Math.floor(element.getBoundingClientRect().width);
+    this._tableHeight = Math.floor(element.getBoundingClientRect().height);
   }
 
   ngAfterViewInit(): void {
 
-    const element: HTMLElement = this._self.nativeElement;
-    const overlay: HTMLElement = this.overlayRef.nativeElement;
 
-    this._renderer.setStyle(overlay, 'width', `${ element.getBoundingClientRect().width }px`);
-    this._renderer.setStyle(overlay, 'height', `${ element.getBoundingClientRect().height }px`);
-
-    if (!this.isLoading) {
-      this._renderer.addClass(overlay, 'hidden');
-    }
   }
 
   ngAfterContentInit(): void {
@@ -80,19 +96,12 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   ngOnChanges(changes: SimpleChanges): void {
     const { qlData, isLoading } = changes;
 
-    if (qlData) {
+    if (qlData?.currentValue) {
       this.data = [...qlData.currentValue];
     }
 
-    if (isLoading) {
-      this._renderer.addClass(this.overlayRef.nativeElement, 'hidden');
-    } else {
-      this._renderer.removeClass(this.overlayRef.nativeElement, 'hidden');
-    }
+    this.isEmpty = this.data?.length === 0 && !this.isLoading;
   }
 
-  private _activateLoadingOverlay(): void {
-
-  }
 
 }

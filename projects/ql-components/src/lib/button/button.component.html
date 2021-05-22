@@ -3,11 +3,10 @@
 		'primary': color === 'primary',
 		'ascent': color === 'ascent',
 		'warn': color === 'warn',
-		'disabled': isLoading
+		'disabled': isLoading || disabled
 	}"
         #button
-		class='ql-button'
-		[disabled]='disabled'>
+		class='ql-button'>
 	<span class='text mat-body-strong mat-body-2'>
 		<ng-content></ng-content>
 	</span>
