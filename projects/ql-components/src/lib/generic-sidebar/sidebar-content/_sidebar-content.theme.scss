@@ -35,6 +35,11 @@
       .group-row {
         grid-template-areas: "text arrow";
         grid-template-columns: .8fr .2fr;
+
+        &.always-open {
+          grid-template-areas: "text";
+          grid-template-columns: 1fr;
+        }
       }
 
       @if (map.get($content-values, group-arrow-position) == 'start') {
@@ -42,10 +47,6 @@
           .group-row {
             grid-template-areas: "arrow text icon"
           }
-        }
-        .group-row {
-          grid-template-areas: "arrow text";
-          grid-template-columns: .2fr .8fr;
         }
       }
 

@@ -80,6 +80,7 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   @HostBinding('class.is-collapsed')
   protected _isSidebarCollapsed = false;
 
+  @HostBinding('class.always-open')
   protected _alwaysOpen: boolean;
 
 
@@ -95,19 +96,17 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   }
 
   ngAfterContentInit(): void {
-    if (this.icon.length > 0) {
-      this._hasIcon = true;
-    }
+    this._hasIcon = this.icon.length > 0;
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Reflect.has(changes, 'isExpanded')) {
-      this.isExpanded = Reflect.get(changes, 'isExpanded');
+      this.isExpanded = Reflect.get(changes, 'isExpanded') as boolean;
     }
 
     if (Reflect.has(changes, 'alwaysOpen')) {
-      this.alwaysOpen = Reflect.get(changes, 'alwaysOpen');
+      this.alwaysOpen = Reflect.get(changes, 'alwaysOpen') as boolean;
     }
   }
 
@@ -131,6 +130,10 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   @Input()
   set alwaysOpen(value: boolean) {
     this._alwaysOpen = value;
+
+    if (value) {
+      this.hasIcon = false;
+    }
   }
 
   get hasIcon(): boolean {
