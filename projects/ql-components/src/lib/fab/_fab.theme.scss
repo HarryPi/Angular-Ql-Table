@@ -1,0 +1,64 @@
+@use "sass:map";
+@import "../common/base-styles.theme";
+
+@mixin fab-theme($theme, $typo: null, $overrides: ()) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  $fab-values: (
+          width: 3.2rem,
+          height: 3.2rem,
+          background-color: mat-color($primary, 700),
+          margin-right: 0.8rem,
+          margin-bottom: 0.8rem,
+          expand-items-space-between: .4rem
+  );
+
+  $fab-values: map.merge($fab-values, $overrides);
+
+
+  ql-fab {
+    @include extract-style-map($fab-values);
+
+    position: fixed;
+    z-index: 999;
+    right: 0;
+    bottom: 0;
+
+    .disabled {
+      background: lightgrey;
+      border-color: darkgrey;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .expand-list {
+      $height: ql-get-value(height, $fab-values);
+
+      height: $height;
+      width: ql-get-value(width, $fab-values);
+      padding: .4rem 5%;
+
+      .expand-list-items {
+        bottom: 0;
+        top: calc(5 * var(--height) * -1);
+
+        > * {
+          margin-bottom: var(--expand-items-space-between);
+        }
+      }
+    }
+
+    button {
+      @include base-size-style($fab-values);
+      background-color: var(--background-color);
+      margin-right: var(--margin-right);
+      margin-bottom: var(--margin-bottom);
+
+      border-radius: 50%;
+      @include mat-elevation(8);
+    }
+  }
+}

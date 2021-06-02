@@ -1,0 +1,63 @@
+@use "sass:map";
+
+@mixin base-size-style($map: ()) {
+  width: var(--width);
+  height: var(--height);
+}
+
+@mixin base-color-style($theme) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  &.primary {
+    background-color: mat-color($primary, 700);
+    color: mat-contrast($primary, 700);
+
+    &.disabled {
+      color: mat-color($primary, 700);
+    }
+
+    .ql-button-spinner {
+      fill: mat-color($primary, 700);
+    }
+  }
+
+  &.ascent {
+    background-color: mat-color($ascent, 700);
+    color: mat-contrast($ascent, 700);
+
+    &.disabled {
+      color: mat-color($ascent, 700);
+    }
+
+    .ql-button-spinner {
+      fill: mat-color($ascent, 700);
+    }
+  }
+
+  &.warn {
+    background-color: mat-color($warn, 700);
+    color: mat-contrast($warn, 700);
+    border: .1rem solid mat-color($warn, 400, .7);
+
+    &.disabled {
+      color: mat-color($warn, 700);
+    }
+
+    .ql-button-spinner {
+      fill: mat-color($warn, 700);
+    }
+  }
+}
+
+@mixin extract-style-map($map: ()) {
+  @each $style-name, $style in $map {
+    --#{$style-name}: #{$style}
+  }
+}
+
+@function ql-get-value($var-name, $map) {
+  @return var(--#{$var-name}, map.get($map, $var-name));
+}

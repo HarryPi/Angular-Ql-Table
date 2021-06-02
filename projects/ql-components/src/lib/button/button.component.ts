@@ -1,26 +1,35 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { QlBaseStyle } from '../common/ql-base-style';
 
 @Component({
   selector: 'ql-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
-export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
+export class ButtonComponent extends QlBaseStyle implements OnInit {
 
   @ViewChild('button') button: ElementRef<HTMLButtonElement> | undefined;
 
-  @Input() disabled: boolean;
-  @Input() isLoading: boolean;
-  @Input() color: 'primary' | 'ascent' | 'simple' | 'warn';
+  @Input()
+  disabled: boolean;
 
+  @HostBinding('class.with-extra')
+  private _isLoading: boolean;
+
+  @Input()
+  @HostBinding('style.--spinner-width')
+  spinnerWidth: string;
+
+  @Input()
+  fab = false;
 
   constructor(
-      private _renderer: Renderer2,
       private _matIconRegistry: MatIconRegistry,
       private _domSanitizer: DomSanitizer
   ) {
+    super();
     this._matIconRegistry.addSvgIcon(
         'spinner',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/spinner.svg')
@@ -31,22 +40,12 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
-    this._setSpinnerClass();
+  get isLoading(): boolean {
+    return this._isLoading;
   }
 
-  ngOnChanges(): void {
-    if (this.button) {
-      this._setSpinnerClass();
-    }
+  @Input()
+  set isLoading(loading: boolean) {
+    this._isLoading = loading;
   }
-
-  private _setSpinnerClass(): void {
-    if (this.isLoading) {
-      this._renderer.addClass(this.button.nativeElement, 'with-extra');
-    } else {
-      this._renderer.removeClass(this.button.nativeElement, 'with-extra');
-    }
-  }
-
 }

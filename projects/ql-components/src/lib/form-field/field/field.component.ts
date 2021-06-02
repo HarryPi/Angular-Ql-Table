@@ -58,7 +58,6 @@ export class FieldComponent extends Destroyable implements OnInit, AfterContentI
       this.inputError = invalid;
     });
 
-    console.log(this.inputDiv);
     if (this.input && this.input.height) {
       this._renderer.setStyle(this.inputDiv.nativeElement, 'height', this.input.height);
     }

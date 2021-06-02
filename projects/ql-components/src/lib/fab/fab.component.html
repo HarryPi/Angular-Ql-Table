@@ -1,0 +1,16 @@
+<div class='expand-list'>
+	<div *ngIf='isExpanded'
+		 @expandHide
+		 class='expand-list-items'>
+		<ng-content select='ql-button'></ng-content>
+	</div>
+</div>
+<button mat-ripple
+		(click)='expand()'
+		[ngClass]='{
+			"disabled": disabled
+		}'
+		class='fab-button'>
+	<ng-content select='mat-icon'></ng-content>
+</button>
+

@@ -1,4 +1,24 @@
-@mixin ql-button-theme($theme) {
+@use "sass:map";
+
+@import "../common/base-styles.theme";
+
+@mixin ql-buttons-common($primary) {
+  transition-property: border, box-shadow, width;
+  transition-duration: 150ms;
+  transition-timing-function: linear;
+
+  border: .1rem solid mat-color($primary, 400, .7);
+  outline: none;
+  border-radius: .2rem;
+
+  &:hover {
+    border: .1rem solid mat-color($primary, 700, .7);
+    box-shadow: 0 0 .15rem .02rem mat-color($primary, 300, 1);
+  }
+
+}
+
+@mixin ql-button-theme($theme, $overrides: ()) {
   @keyframes spinner-spin {
     0% {
       transform: rotateZ(0deg);
@@ -10,65 +30,20 @@
 
   }
 
+  $button-values: (
+          width: 4.8rem,
+          height: 3.2rem,
+          spinner-width: 1.6rem
+  );
+
+  $button-values: map.merge($button-values, $overrides);
+
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
   @include mat-ripple-theme($theme);
-
-  .ql-button {
-    transition-property: border, box-shadow;
-    transition-duration: 250ms;
-    transition-timing-function: linear;
-
-    border: .1rem solid mat-color($primary, 400, .7);
-    outline: none;
-    border-radius: .2rem;
-
-    &:hover {
-      border: .1rem solid mat-color($primary, 700, .7);
-      box-shadow: 0 0 .15rem .02rem mat-color($primary, 300, 1);
-    }
-
-    &.primary {
-      background-color: mat-color($primary, 700);
-      color: mat-contrast($primary, 700);
-
-      &.disabled {
-        color: mat-color($primary, 700);
-      }
-
-      .ql-button-spinner {
-        fill: mat-color($primary, 700);
-      }
-    }
-
-    &.ascent {
-      background-color: mat-color($ascent, 700);
-      color: mat-contrast($ascent, 700);
-
-      &.disabled {
-        color: mat-color($ascent, 700);
-      }
-      .ql-button-spinner {
-        fill: mat-color($ascent, 700);
-      }
-    }
-
-    &.warn {
-      background-color: mat-color($warn, 700);
-      color: mat-contrast($warn, 700);
-      border: .1rem solid mat-color($warn, 400, .7);
-
-      &.disabled {
-        color: mat-color($warn, 700);
-      }
-      .ql-button-spinner {
-        fill: mat-color($warn, 700);
-      }
-    }
-  }
 
   .ql-button-spinner {
     animation: spinner-spin 2s linear infinite;
@@ -78,5 +53,60 @@
     justify-content: center;
     align-items: center;
   }
+
+
+  ql-button {
+    @include extract-style-map($button-values);
+
+    .ql-button {
+      @include base-size-style($button-values);
+      @include base-color-style($theme);
+      @include ql-buttons-common($primary);
+
+      .text {
+        flex: 1 1 100%;
+      }
+
+      .extra {
+        flex: 1 1 0;
+
+      }
+    }
+
+    .ql-fab-button {
+      // For fab buttons we use height twice intentionally as width and height need to be the same
+      width: ql-get-value(height, $button-values);
+      height: ql-get-value(height, $button-values);
+
+      @include base-color-style($theme);
+      @include ql-buttons-common($primary);
+      @include mat-elevation(4);
+
+      border-radius: 50%;
+    }
+
+    &.with-extra {
+      .ql-fab-button {
+        .extra {
+          flex: 1 1 100%;
+          width: var(--width);
+        }
+      }
+
+      .ql-button {
+        width: calc(var(--width) + var(--spinner-width));
+      }
+
+      .ql-button .text {
+        flex: 1 1 70%;
+      }
+
+      .ql-button .extra {
+        flex: 1 1 30%;
+        width: var(--spinner-width);
+      }
+    }
+  }
+
 }
 

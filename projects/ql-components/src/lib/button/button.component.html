@@ -3,11 +3,13 @@
 		'primary': color === 'primary',
 		'ascent': color === 'ascent',
 		'warn': color === 'warn',
-		'disabled': isLoading || disabled
+		'disabled': isLoading || disabled,
+		'ql-button': !fab,
+		'ql-fab-button': fab
 	}"
-        #button
-		class='ql-button'>
-	<span class='text mat-body-strong mat-body-2'>
+        #button>
+	<span *ngIf='(fab && !isLoading) || !fab'
+		  class='text mat-body-strong mat-body-2'>
 		<ng-content></ng-content>
 	</span>
 	<span *ngIf='isLoading'
@@ -16,4 +18,3 @@
 				  inline></mat-icon>
 	</span>
 </button>
-
