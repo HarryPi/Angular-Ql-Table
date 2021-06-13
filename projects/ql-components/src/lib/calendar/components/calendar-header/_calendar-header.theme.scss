@@ -1,0 +1,40 @@
+@use "sass:map";
+
+// Technically private as all overrides come from the calendar
+@mixin ql-calendar-header-theme($theme) {
+
+  .days {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    height: var(--calendar-header-height);
+    background-color: var(--calendar-header-background-color);
+    justify-content: center;
+    align-items: center;
+
+    .day {
+
+      // Last cell doesnt need this as the calendar has it
+      &:last-of-type {
+        border-right: none;
+      }
+
+      &:first-of-type {
+        border-left: var(--calendar-header-border);
+      }
+
+      box-sizing: border-box;
+      border-left: none;
+      border-right: var(--calendar-header-border);
+      border-bottom: var(--calendar-header-border);
+      border-top: var(--calendar-header-border);
+      color: var(--calendar-header-text-color);
+
+      display: flex;
+      flex-flow: row;
+      justify-content: var(--calendar-header-text-align);
+      align-items: center;
+      flex: 1 1 calc(var(--width) / 7);
+    }
+  }
+}

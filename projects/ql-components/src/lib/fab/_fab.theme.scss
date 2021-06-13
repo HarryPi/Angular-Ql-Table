@@ -21,6 +21,7 @@
 
   ql-fab {
     @include extract-style-map($fab-values);
+    --list-items: 0;
 
     position: fixed;
     z-index: 999;
@@ -43,7 +44,7 @@
 
       .expand-list-items {
         bottom: 0;
-        top: calc(5 * var(--height) * -1);
+        top: calc(var(--list-items) * var(--height) * -1);
 
         > * {
           margin-bottom: var(--expand-items-space-between);

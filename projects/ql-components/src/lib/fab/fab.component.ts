@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterContentInit, Component, ContentChildren, HostBinding, Input, OnInit, Output, QueryList } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'ql-fab',
@@ -23,8 +24,8 @@ import { Subject } from 'rxjs';
 })
 export class FabComponent implements OnInit, AfterContentInit {
 
-  @ContentChildren(HTMLButtonElement)
-  expandedItems: QueryList<HTMLButtonElement>;
+  @ContentChildren(ButtonComponent)
+  expandedItems: QueryList<ButtonComponent>;
 
   @Input()
   @HostBinding('class.disabled')
@@ -35,6 +36,9 @@ export class FabComponent implements OnInit, AfterContentInit {
 
   isExpanded: boolean;
 
+  @HostBinding('style.--list-items')
+  private _totalListItems: number;
+
   constructor() {
     this.isExpanded = false;
     this.isExpandedChanged = new Subject<boolean>();
@@ -44,7 +48,9 @@ export class FabComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    console.log(this.expandedItems);
+    const length: number = this.expandedItems.length;
+
+    length > 2 ? this._totalListItems = length + 1 : this._totalListItems = length + 0.5;
   }
 
   expand(): void {

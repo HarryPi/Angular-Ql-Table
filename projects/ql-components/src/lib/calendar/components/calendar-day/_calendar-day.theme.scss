@@ -1,0 +1,24 @@
+@use "sass:map";
+
+@mixin ql-calendar-day-theme($theme) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  .day-content {
+    display: flex;
+    flex-flow: row wrap;
+
+    .display-date {
+      margin-left: auto;
+      color: mat-color($ascent, 700);
+
+      &.not-active-month {
+        color: lightgrey;
+      }
+    }
+
+  }
+
+}

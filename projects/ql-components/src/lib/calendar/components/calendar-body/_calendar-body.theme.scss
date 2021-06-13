@@ -1,0 +1,40 @@
+@use "sass:map";
+@import "../calendar-day/calendar-day.theme";
+
+@mixin ql-calendar-body-theme($theme, $overrides: ()) {
+  $calendar-map: ();
+
+  $calendar-map: map.merge($calendar-map, $overrides);
+
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  .calendar-body {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    flex-flow: row wrap;
+
+    .day {
+      box-sizing: border-box;
+      flex: 1 1 calc(100% / 7);
+      background-color: white;
+      border-left: none;
+      border-top: none;
+      border-right: var(--calendar-header-border);
+      border-bottom: var(--calendar-header-border);
+
+      // 1, 8, 15, 22, 29 all need border left as they are the first day of the line
+      &:nth-of-type(1), &:nth-of-type(8), &:nth-of-type(15), &:nth-of-type(22), &:nth-of-type(29), &:nth-of-type(36) {
+        border-left: var(--calendar-header-border);
+      }
+
+      @include ql-calendar-day-theme($theme);
+    }
+  }
+
+
+}

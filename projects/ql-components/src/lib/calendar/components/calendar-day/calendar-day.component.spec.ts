@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SidebarNavItemComponent } from './sidebar-nav-item.component';
+import { CalendarDayComponent } from './calendar-day.component';
 
-describe('SidebarItemComponent', () => {
-  let component: SidebarNavItemComponent;
-  let fixture: ComponentFixture<SidebarNavItemComponent>;
+describe('CalendarDayComponent', () => {
+  let component: CalendarDayComponent;
+  let fixture: ComponentFixture<CalendarDayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SidebarNavItemComponent ]
+      declarations: [ CalendarDayComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SidebarNavItemComponent);
+    fixture = TestBed.createComponent(CalendarDayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

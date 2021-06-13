@@ -18,7 +18,7 @@
           item-selected-border-width: .4rem,
           item-selected-background-color: mat-color($primary, A100, 0.4),
           row-height: 4rem,
-          row-width: 100%,
+          row-width: inherit,
           row-group-width: 100%
   );
 

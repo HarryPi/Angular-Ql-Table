@@ -1,0 +1,31 @@
+@mixin ql-calendar-toolbar-theme($theme) {
+  .toolbar-content {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 1.6rem;
+
+    display: grid;
+    grid-template-areas: "navigation title view";
+    grid-template-rows: 100%;
+    grid-template-columns: .2fr 1fr .2fr;
+    place-items: center;
+
+    .navigation {
+      display: flex;
+      grid-area: navigation;
+    }
+
+    .title {
+      grid-area: title;
+    }
+
+    .view {
+      grid-area: view;
+      display: flex;
+
+      ql-button {
+        --width: 6.4rem;
+      }
+    }
+  }
+}

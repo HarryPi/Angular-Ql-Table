@@ -2,8 +2,7 @@
   display: grid;
   grid-template-areas: "text text border";
   grid-gap: .2rem;
-  width: 100%;
-  align-items: center;
+   align-items: center;
 
   &.has-icon {
     grid-template-areas: "icon text border";
