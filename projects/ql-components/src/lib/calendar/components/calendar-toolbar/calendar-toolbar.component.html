@@ -1,11 +1,13 @@
 <div class='toolbar-content'>
 	<div class='navigation'>
-		<ql-button [color]='"primary"'>
+		<ql-button [color]='"primary"'
+				   (click)='back()'>
 			<mat-icon inline
 					  color='accent'>arrow_back_ios
 			</mat-icon>
 		</ql-button>
-		<ql-button [color]='"primary"'>
+		<ql-button [color]='"primary"'
+				   (click)='next()'>
 			<mat-icon inline
 					  color='accent'>arrow_forward_ios
 			</mat-icon>

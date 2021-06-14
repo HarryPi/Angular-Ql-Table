@@ -1,5 +1,7 @@
 <div class='calendar'>
 	<ql-calendar-toolbar class='toolbar'
+						 (nextClicked)='next($event)'
+						 (backClicked)='back($event)'
 						 [currentDate]='date'></ql-calendar-toolbar>
 	<ql-calendar-header class='header'></ql-calendar-header>
 	<ql-calendar-body class='body'></ql-calendar-body>
