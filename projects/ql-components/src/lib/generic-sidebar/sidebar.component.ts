@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, ContentChildren, HostBinding, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, HostBinding, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Destroyable } from '../common/destroyable';
 import { SidebarCollapseToken } from './sidebar-collapse/sidebar-collapse.component';

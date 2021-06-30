@@ -27,7 +27,7 @@ export abstract class SidebarGroupToken extends Destroyable {
 
   protected abstract _isSidebarCollapsed = false;
   protected abstract _isExpanded: boolean;
-
+  protected abstract _order: number;
 
   get isExpanded(): boolean {
     return this._isExpanded;
@@ -39,6 +39,9 @@ export abstract class SidebarGroupToken extends Destroyable {
 
   abstract get isSidebarCollapsed(): boolean;
   abstract set isSidebarCollapsed(value: boolean);
+
+  abstract get order(): number;
+  abstract set order(value: number);
 
   protected constructor() {
     super();
@@ -83,6 +86,8 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
   @HostBinding('class.always-open')
   protected _alwaysOpen: boolean;
 
+  @HostBinding('style.--order')
+  protected _order: number;
 
   constructor(
       private _change: ChangeDetectorRef
@@ -154,5 +159,15 @@ export class SidebarGroupComponent extends SidebarGroupToken implements OnInit, 
     this._isSidebarCollapsed = value;
 
     this.items.forEach(item => item.isSidebarCollapsed = value);
+  }
+
+
+  get order(): number {
+    return this._order;
+  }
+
+  @Input()
+  set order(value: number) {
+    this._order = value;
   }
 }

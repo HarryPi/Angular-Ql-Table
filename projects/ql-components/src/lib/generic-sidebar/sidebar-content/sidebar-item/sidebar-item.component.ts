@@ -5,9 +5,12 @@ export abstract class SidebarItemToken {
   protected _isSelected = false;
 
   protected abstract _isSidebarCollapsed: boolean;
+  protected abstract _order: number;
 
   abstract set isSidebarCollapsed(value: boolean);
   abstract get isSidebarCollapsed(): boolean;
+  abstract get order(): number;
+  abstract set order(value: number);
 
   get isSelected(): boolean {
     return this._isSelected;
@@ -38,6 +41,9 @@ export class SidebarItemComponent extends SidebarItemToken implements OnInit, Af
 
   @HostBinding('class.has-icon')
   private _hasIcon = false;
+
+  @HostBinding('style.--order')
+  protected _order: number;
 
   constructor() {
     super();
@@ -77,5 +83,14 @@ export class SidebarItemComponent extends SidebarItemToken implements OnInit, Af
   @Input()
   set isSidebarCollapsed(value: boolean) {
     this._isSidebarCollapsed = value;
+  }
+
+  get order(): number {
+    return this._order;
+  }
+
+  @Input()
+  set order(value: number) {
+    this._order = value;
   }
 }

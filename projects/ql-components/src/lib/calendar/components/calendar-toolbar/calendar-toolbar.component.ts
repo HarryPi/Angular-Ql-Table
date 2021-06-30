@@ -10,16 +10,24 @@ import { CalendarView } from '../../common/calendar-view';
 })
 export class CalendarToolbarComponent implements OnInit {
 
-  @Output() public nextClicked: Subject<CalendarView>;
-  @Output() public backClicked: Subject<CalendarView>;
+  @Output() public nextClicked: Subject<void>;
+  @Output() public backClicked: Subject<void>;
+  @Output() public monthlyClicked: Subject<void>;
+  @Output() public weeklyClicked: Subject<void>;
+  @Output() public dailyClicked: Subject<void>;
+
+  calendarViews = CalendarView;
 
   private _currentDate: Date;
-  private _currentView: CalendarView;
+  private _calendarView: CalendarView;
 
   constructor() {
-    this._currentView = CalendarView.Month;
-    this.nextClicked = new Subject<CalendarView>();
-    this.backClicked = new Subject<CalendarView>();
+    this._calendarView = CalendarView.Month;
+    this.nextClicked = new Subject<void>();
+    this.backClicked = new Subject<void>();
+    this.monthlyClicked = new Subject<void>();
+    this.weeklyClicked = new Subject<void>();
+    this.dailyClicked = new Subject<void>();
   }
 
   ngOnInit(): void {
@@ -30,11 +38,11 @@ export class CalendarToolbarComponent implements OnInit {
   }
 
   back(): void {
-    this.backClicked.next(this._currentView);
+    this.backClicked.next();
   }
 
   next(): void {
-    this.nextClicked.next(this._currentView);
+    this.nextClicked.next();
   }
 
   get currentDate(): Date {
@@ -44,5 +52,14 @@ export class CalendarToolbarComponent implements OnInit {
   @Input()
   set currentDate(value: Date) {
     this._currentDate = value;
+  }
+
+  get calendarView(): CalendarView {
+    return this._calendarView;
+  }
+
+  @Input()
+  set calendarView(value: CalendarView) {
+    this._calendarView = value;
   }
 }

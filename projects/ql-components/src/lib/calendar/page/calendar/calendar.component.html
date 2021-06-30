@@ -1,8 +1,13 @@
 <div class='calendar'>
+
 	<ql-calendar-toolbar class='toolbar'
-						 (nextClicked)='next($event)'
-						 (backClicked)='back($event)'
+						 (nextClicked)='next()'
+						 (backClicked)='back()'
+						 (monthlyClicked)='setCalendarView(calendarViews.Month)'
+						 (weeklyClicked)='setCalendarView(calendarViews.Week)'
+						 (dailyClicked)='setCalendarView(calendarViews.Day)'
+						 [calendarView]='currentView'
 						 [currentDate]='date'></ql-calendar-toolbar>
-	<ql-calendar-header class='header'></ql-calendar-header>
-	<ql-calendar-body class='body'></ql-calendar-body>
+	<ql-calendar-body [calendarView]='currentView'
+					  class='body'></ql-calendar-body>
 </div>

@@ -24,4 +24,4 @@ export * from './lib/autocomplete/autocomplete.index';
 export * from './lib/generic-toolbar/toolbar.index';
 export * from './lib/ql-table/table.index';
 export * from './lib/fab/index';
-export * from './lib/calendar/calendar.index';
+export * from './lib/chip/index';

@@ -7,6 +7,7 @@ import { CalendarHeaderComponent } from './components/calendar-header/calendar-h
 import { CalendarBodyComponent } from './components/calendar-body/calendar-body.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { CalendarToolbarComponent } from './components/calendar-toolbar/calendar-toolbar.component';
+import { CalendarWeeklyDayComponent } from './components/calendar-weekly-day/calendar-weekly-day.component';
 
 
 
@@ -16,7 +17,8 @@ import { CalendarToolbarComponent } from './components/calendar-toolbar/calendar
       CalendarHeaderComponent,
       CalendarBodyComponent,
       CalendarDayComponent,
-      CalendarToolbarComponent
+      CalendarToolbarComponent,
+      CalendarWeeklyDayComponent
   ],
   imports: [
     CommonModule,

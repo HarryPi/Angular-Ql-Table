@@ -1,6 +1,7 @@
 @use "sass:map";
 @import "./sidebar-group/sidebar-group.theme";
 @import "sidebar-content.shared.theme";
+@import "../../common/base-styles.theme";
 
 @mixin ql-sidebar-content-theme($theme, $typo: null, $overrides: ()) {
   $config: mat-get-color-config($theme);
@@ -26,11 +27,17 @@
 
   ql-sidebar-content {
 
+    @include extract-style-map($content-values);
     @include ql-sidebar-group-theme($theme, $typo, $content-values);
+
+    display: flex;
+    flex-flow: column wrap;
+
 
     ql-sidebar-group {
       width: map.get($content-values, row-group-width);
       margin-bottom: map.get($content-values, group-row-space-between);
+      order: var(--order);
 
       .group-row {
         grid-template-areas: "text arrow";

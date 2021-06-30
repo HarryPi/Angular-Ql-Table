@@ -11,6 +11,7 @@ export abstract class QlBaseStyle {
   @HostBinding('style.--height')
   height: string;
 
-  @Input() color: 'primary' | 'ascent' | 'simple' | 'warn';
+  @Input()
+  color: 'primary' | 'ascent' | 'simple' | 'warn' = 'primary';
 
 }

@@ -1,5 +1,27 @@
-<div class='calendar-body'>
-	<ql-calendar-day class='day'
-					 *ngFor='let index of totalCalendarDisplayDays'>
-	</ql-calendar-day>
+<div class='calendar-body'
+	 [ngSwitch]='calendarView'>
+
+	<ng-container *ngIf='calendarView !== monthlyView'>
+		<div class='hours-indicator'><span class='mat-body-2'>Time</span></div>
+		<div class='hours'>
+			<div class='hour'
+				 *ngFor='let hour of hourIntervals'>{{ getHoursFn(hour) }}:{{ getMinutesFn(hour) }}
+			</div>
+		</div>
+	</ng-container>
+
+	<ql-calendar-header class='header'></ql-calendar-header>
+
+	<div class='main'>
+		<ng-container *ngSwitchCase='monthlyView'>
+			<ql-calendar-day class='monthly-day'
+							 *ngFor='let index of totalCalendarMonthlyDisplayDays'></ql-calendar-day>
+		</ng-container>
+
+		<ng-container *ngSwitchCase='weeklyView'>
+			<ql-calendar-weekly-day class='weekly-day'
+									*ngFor='let index of totalCalendarWeeklyDisplayDays'></ql-calendar-weekly-day>
+		</ng-container>
+	</div>
+
 </div>

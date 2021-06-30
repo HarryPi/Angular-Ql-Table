@@ -10,23 +10,31 @@ import { CalendarBody } from '../../components/calendar-body/calendar-body.compo
 })
 export class CalendarComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(CalendarBody) calendarBody: CalendarBody;
+  @ViewChild(CalendarBody, {static: true}) private _calendarBody: CalendarBody;
 
+  calendarViews = CalendarView;
+
+  private _currentView: CalendarView;
   private _date: Date;
+  private _interval: number;
 
   constructor() {
     this._date = new Date();
+    this._currentView = CalendarView.Month;
+    this._interval = 30;
   }
 
   ngOnInit(): void {
+    this._calendarBody.date = this.date;
+    this._calendarBody.interval = this.interval;
   }
 
   ngAfterViewInit(): void {
-    this.calendarBody.date = this.date;
+
   }
 
-  next(view: CalendarView): void {
-    switch (view) {
+  next(): void {
+    switch (this._currentView) {
       case CalendarView.Month:
         this.date = addMonths(this._date, 1);
         break;
@@ -36,11 +44,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
       case CalendarView.Day:
         this.date = addDays(this._date, 1);
     }
-    this.calendarBody.date = this.date;
+    this._calendarBody.date = this.date;
   }
 
-  back(view: CalendarView): void {
-    switch (view) {
+  back(): void {
+    switch (this._currentView) {
       case CalendarView.Month:
         this.date = subMonths(this._date, 1);
         break;
@@ -50,9 +58,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
       case CalendarView.Day:
         this.date = subDays(this._date, 1);
     }
-    this.calendarBody.date = this.date;
+    this._calendarBody.date = this.date;
   }
 
+
+  setCalendarView(view: CalendarView): void {
+    this.currentView = view;
+  }
 
   get date(): Date {
     return this._date;
@@ -63,4 +75,30 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this._date = value;
   }
 
+  get calendarBody(): CalendarBody {
+    return this._calendarBody;
+  }
+
+  @Input()
+  set calendarBody(value: CalendarBody) {
+    this._calendarBody = value;
+  }
+
+  get currentView(): CalendarView {
+    return this._currentView;
+  }
+
+  @Input()
+  set currentView(value: CalendarView) {
+    this._currentView = value;
+  }
+
+  get interval(): number {
+    return this._interval;
+  }
+
+  @Input()
+  set interval(value: number) {
+    this._interval = value;
+  }
 }

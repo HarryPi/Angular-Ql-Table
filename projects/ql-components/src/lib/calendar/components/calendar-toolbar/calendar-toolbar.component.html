@@ -19,13 +19,16 @@
 	</div>
 
 	<div class='view'>
-		<ql-button [color]='"primary"'>
+		<ql-button (click)='monthlyClicked.next()'
+				   [color]='calendarView === calendarViews.Month ? "ascent" : "primary"'>
 			Monthly
 		</ql-button>
-		<ql-button [color]='"primary"'>
+		<ql-button (click)='weeklyClicked.next()'
+				   [color]='calendarView === calendarViews.Week ? "ascent" : "primary"'>
 			Weekly
 		</ql-button>
-		<ql-button [color]='"primary"'>
+		<ql-button (click)='dailyClicked.next()'
+				   [color]='calendarView === calendarViews.Day ? "ascent" : "primary"'>
 			Daily
 		</ql-button>
 	</div>

@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren, Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   QueryList,
   SimpleChanges
@@ -21,12 +21,13 @@ import { SidebarItemToken } from './sidebar-item/sidebar-item.component';
   templateUrl: './sidebar-content.component.html',
   styleUrls: ['./sidebar-content.component.scss']
 })
-export class SidebarContentComponent extends Destroyable implements OnInit, AfterContentInit, OnChanges {
+export class SidebarContentComponent extends Destroyable implements OnInit, AfterContentInit, OnDestroy {
 
   @ContentChildren(SidebarGroupToken) groups: QueryList<SidebarGroupToken>;
   @ContentChildren(SidebarItemToken) items: QueryList<SidebarItemToken>;
 
   private _isCollapsed = false;
+  private _existingGroups: SidebarGroupToken[];
 
   private _groupObserver: ReplaySubject<boolean>;
 
@@ -36,6 +37,7 @@ export class SidebarContentComponent extends Destroyable implements OnInit, Afte
       private _change: ChangeDetectorRef
   ) {
     super();
+    this._existingGroups = [];
     this._matIconRegistry.addSvgIcon(
         'arrow',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/sidebar-arrow.svg')
@@ -47,31 +49,24 @@ export class SidebarContentComponent extends Destroyable implements OnInit, Afte
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (Reflect.get(changes, 'groups')) {
-      this._setGroupExpanded();
-    }
-  }
 
   ngAfterContentInit(): void {
     // This here is to ensure if the content changes we observe the changes and resubscribe as this wont trigger ngonchanges
-    this.groups.changes.pipe(takeUntil(this._onDestroy)).subscribe(groups => {
-      this._setGroupExpanded();
+    this.groups.changes.pipe(takeUntil(this._onDestroy)).subscribe((groups: QueryList<SidebarGroupToken>) => {
+      const groupsToObserve: SidebarGroupToken[] =
+          groups.filter(newGroups => this._existingGroups.every(existingGroup => existingGroup.id !== newGroups.id));
+      this._setGroupExpanded(groupsToObserve);
     });
-    this._setGroupExpanded();
+    this._existingGroups = this.groups.map(g => g);
+    this._setGroupExpanded(this._existingGroups);
   }
 
-  private _setGroupExpanded(): void {
-    this.groups.forEach(group => group.groupClicked.pipe(
-        tap(() => {
-              // Check if previous subscription exist if yes destroy
-              let isSubscribed: boolean;
-              this._groupObserver.pipe(take(1)).subscribe(s => isSubscribed = s);
-              if (isSubscribed) {
-                this._groupObserver.next(true);
-              }
-            }
-        ),
+  ngOnDestroy(): void {
+    this.onDestroy();
+  }
+
+  private _setGroupExpanded(groups: SidebarGroupToken[]): void {
+    groups.forEach(group => group.groupClicked.pipe(
         tap(clickedId => {
           // iterate all groups and set as not selected except where id matches
           // There set reverse of what is currently the option
@@ -85,7 +80,7 @@ export class SidebarContentComponent extends Destroyable implements OnInit, Afte
           });
           this._change.detectChanges();
         }),
-        takeUntil(this._groupObserver)
+        takeUntil(this._onDestroy)
     ).subscribe());
   }
 

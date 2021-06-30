@@ -24,6 +24,7 @@
     transition-duration: 250ms;
     transition-property: background-color;
     transition-timing-function: linear;
+    order: var(--order);
 
     height: map.get($content-values, row-height);
     font-size: mat-font-size($typo, body-1);

@@ -14,7 +14,7 @@
   $calendar-map: (
           width: 100%,
           height: 100%,
-          calendar-header-border: 0.1rem solid mat-color($primary, 400),
+          calendar-border: 0.1rem solid mat-color($primary, 400),
           calendar-header-text-align: center,
           calendar-header-text-color: mat-color($ascent, 900),
           calendar-header-background-color: mat-color($primary, 100),
@@ -36,13 +36,11 @@
       display: grid;
       grid-template-areas:
             "toolbar"
-            "header"
             "body";
 
       grid-template-columns: 100%;
       grid-template-rows:
               var(--calendar-toolbar-height)
-              var(--calendar-header-height)
               1fr;
 
       .toolbar {
@@ -50,13 +48,11 @@
         @include ql-calendar-toolbar-theme($theme);
       }
 
-      .header {
-        grid-area: header;
-      }
-
       .body {
         grid-area: body;
+        z-index: 0;
       }
+
     }
   }
 }
