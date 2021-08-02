@@ -1,9 +1,9 @@
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Destroyable } from '../common/destroyable';
 
 export abstract class InputToken extends Destroyable {
   hasError: BehaviorSubject<boolean>;
-  valueChange: Subject<string>;
+  valueChange: Observable<any>;
   height?: string;
 
   protected constructor() {

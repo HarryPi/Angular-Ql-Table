@@ -15,6 +15,13 @@
 	<ng-content>
 
 	</ng-content>
+	<ql-pagination *ngIf='!isLoading && !isEmpty'
+				   [isLeftButtonEnabled]='index !== 0'
+				   [isRightButtonEnabled]='index !== maxIndex'
+				   (backButtonClickChange)='changeIndexBy(-1)'
+				   (nextButtonClickChange)='changeIndexBy(1)'>
+
+	</ql-pagination>
 </table>
 
 

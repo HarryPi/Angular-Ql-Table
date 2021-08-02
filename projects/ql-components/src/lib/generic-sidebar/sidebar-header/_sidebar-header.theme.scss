@@ -1,12 +1,25 @@
+@use "sass:map";
+@import "../../common/base-styles.theme";
+
 @mixin ql-sidebar-header-theme($theme, $overrides: ()) {
+
   $config: mat-get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
+  $content-values: (
+      sidebar-header-height: 4.2rem
+  );
+
+  $content-values: map.merge($content-values, $overrides);
+
 
   ql-sidebar-header {
+    @include extract-style-map($content-values);
+
     background-color: mat-color($primary, 400);
+    height: var(--sidebar-header-height);
   }
 
   .header-item {

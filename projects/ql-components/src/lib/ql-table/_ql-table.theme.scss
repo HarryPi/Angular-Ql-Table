@@ -1,5 +1,8 @@
 @use "sass:map";
 
+@import "./pagination/ql-pagination.theme";
+@import "./../common/base-styles.theme";
+
 @keyframes hourglass-flip {
   0% {
     transform: rotate(0deg) scale(0.5);
@@ -26,7 +29,6 @@
   );
 
   $table-values: map.merge($table-values, $overrides);
-
   @if ($reverse) {
     $primary: map-get($config, accent);
     $ascent: map-get($config, primary);
@@ -36,6 +38,8 @@
   }
 
   ql-table {
+    @include extract-style-map($table-values);
+
     min-height: var(--min-table-height, map.get($table-values, min-table-height));
     position: relative;
 
@@ -70,6 +74,15 @@
     table {
       min-height: inherit;
       width: 100%;
+      display: flex;
+      flex-flow: column wrap;
+
+      * > {
+        display: flex;
+        flex: 1 1 100%;
+      }
+
+     @include ql-pagination-theme($theme, $overrides)
     }
 
     th, td {

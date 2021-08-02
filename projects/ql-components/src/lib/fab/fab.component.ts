@@ -49,7 +49,7 @@ export class FabComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     const length: number = this.expandedItems.length;
-
+ 
     length > 2 ? this._totalListItems = length + 1 : this._totalListItems = length + 0.5;
   }
 

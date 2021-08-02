@@ -1,4 +1,5 @@
 @use "sass:map";
+@import "../../../common/base-styles.theme";
 
 @mixin ql-sidebar-group-theme($theme, $typo, $overrides: ()) {
   $config: mat-get-color-config($theme);
@@ -12,9 +13,11 @@
 
   $content-values: map.merge($content-values, $overrides);
 
+
   ql-sidebar-group {
     color: mat-color($primary);
     fill: mat-color($primary);
+    @include extract-style-map($content-values);
 
     &.has-icon {
       .group-row {
@@ -30,7 +33,7 @@
     }
 
     .group-content {
-      background-color: map.get($content-values, group-open-background-color);
+      background-color: var(--group-open-background-color);
 
       ql-sidebar-item {
         @if ($typo != null) {

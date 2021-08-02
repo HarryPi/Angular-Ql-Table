@@ -49,9 +49,9 @@
       display: grid;
       grid-template-areas: "icon text";
       grid-template-rows: 1fr;
-      grid-template-columns: .2fr .8fr;
-      min-width: 6rem;
+      grid-template-columns: minmax(1.6rem, 0.2fr) 1fr;
       place-items: center;
+      padding: .1rem;
 
       > mat-icon {
         grid-area: icon;
@@ -63,8 +63,6 @@
       > span {
         grid-area: text;
         display: flex;
-        justify-content: center;
-        align-items: center;
       }
     }
   }

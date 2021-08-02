@@ -62,9 +62,15 @@
       @include base-size-style($button-values);
       @include base-color-style($theme);
       @include ql-buttons-common($primary);
+      box-sizing: content-box;
 
       .text {
-        flex: 1 1 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-flow: row;
+        width: var(--width);
+        height: var(--height)
       }
 
       .extra {
@@ -87,6 +93,10 @@
 
     &.with-extra {
       .ql-fab-button {
+        .text {
+          width: auto;
+          height: auto;
+        }
         .extra {
           flex: 1 1 100%;
           width: var(--width);
@@ -99,6 +109,8 @@
       }
 
       .ql-button .text {
+        width: auto;
+        height: auto;
         flex: 1 1 70%;
       }
 

@@ -1,6 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, HostListener, Input, OnDestroy, Optional, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 import { InputToken } from './input';
 
 @Directive({
@@ -29,34 +29,26 @@ export class InputDirective extends InputToken implements AfterContentInit, OnDe
 
   @HostListener('focusout')
   onFocus(): void {
-    this.hasError.next(this.ngControl.touched && this.ngControl.invalid);
+    this.hasError.next(this.ngControl?.touched && this.ngControl?.invalid);
   }
 
   ngAfterContentInit(): void {
-    // Observe class changes for input
-    this._classChangeObserver = new MutationObserver(mutations => {
-      mutations.forEach(m => {
-          if ((m.target as HTMLElement).classList.contains('ng-invalid') && (m.target as HTMLElement).classList.contains('ng-touched')) {
-              this.hasError.next(true);
-          }
-      });
-    });
-    this._classChangeObserver.observe(this._elementRef.nativeElement, {
-      attributes: true, childList: true, characterData: true
-    });
 
-    this.ngControl.statusChanges.pipe(
+    // todo: This causes matautocomplete to present error twice
+    this.ngControl?.statusChanges.pipe(
         startWith(''),
+        debounceTime(100),
         map(state => state === 'INVALID'),
         takeUntil(this._onDestroy)
     ).subscribe(this.hasError);
-    this.ngControl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(this.valueChange);
+
+
+    this.valueChange = this.ngControl?.valueChanges;
   }
 
   ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
-    this._classChangeObserver.disconnect();
   }
 
   focus(): void {

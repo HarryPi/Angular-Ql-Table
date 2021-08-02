@@ -1,0 +1,15 @@
+<div class='table-pagination'>
+	<ql-button class='left-arrow'
+			   (click)='backButtonClicked()'
+			   [disabled]='!isLeftButtonEnabled'>
+		<mat-icon inline
+				  svgIcon='pg-arrow-left'></mat-icon>
+	</ql-button>
+	<ql-button class='right-arrow'
+			   (click)='nextButtonClicked()'
+			   [disabled]='!isRightButtonEnabled'>
+		<mat-icon inline
+				  svgIcon='pg-arrow-right'></mat-icon>
+	</ql-button>
+</div>
+

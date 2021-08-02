@@ -1,4 +1,5 @@
 @use "sass:map";
+@import "../../common/base-styles.theme";
 
 @mixin hover-item($clr) {
     transition-property: color, fill;
@@ -19,6 +20,7 @@
     );
 
     $content-values: map.merge($content-values, $overrides);
+    @include extract-style-map($content-values);
 
     width: map.get($content-values, row-width);
     transition-duration: 250ms;

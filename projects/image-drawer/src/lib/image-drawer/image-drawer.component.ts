@@ -96,7 +96,7 @@ export class ImageDrawerComponent extends Drawer implements OnInit, AfterContent
       this.imageComponent.shapesChanged.pipe(startWith(this.imageComponent.canvasState)),
       this.toolbarComponent.colorsChange.pipe(startWith(this.toolbarComponent.colors))
     ]).pipe(
-        takeUntil(this._destroy)
+          takeUntil(this._destroy)
       )
       .subscribe(() => this.drawerStateChange.next(this.getCurrentState()));
   }

@@ -2,7 +2,6 @@
 
 :host {
   @include mat-elevation(1);
-  width: 100%;
   transition-property: width;
   transition-duration: 350ms;
   transition-timing-function: linear;

@@ -1,13 +1,18 @@
 import {
-  AfterContentInit, AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  ContentChild, ElementRef,
+  ContentChild,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
-  OnInit, Optional, Renderer2,
-  SimpleChanges, ViewChild
+  OnInit,
+  Renderer2,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -39,6 +44,7 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   @Input() qlData: T[] | null;
   @Input() isLoading: boolean;
   @Input() isEmpty: boolean;
+  @Input() itemsToDisplay: number;
 
   @ViewChild('overlay')
   overlayRef!: ElementRef<HTMLDivElement>;
@@ -53,6 +59,8 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   @HostBinding('style.--col-count')
   private _colCount = 0;
 
+  public index: number;
+  public maxIndex: number;
 
   constructor(
       private _matIconRegistry: MatIconRegistry,
@@ -61,8 +69,10 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
       private _renderer: Renderer2,
       private _changeRef: ChangeDetectorRef
   ) {
+    this.index = 0;
     this.qlData = [];
     this.isEmpty = true;
+    this.itemsToDisplay = 5;
     this._matIconRegistry.addSvgIcon(
         'hourglass',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/hourglass.svg')
@@ -71,13 +81,21 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
         'emptyTable',
         this._domSanitizer.bypassSecurityTrustResourceUrl('assets/empty-table.svg')
     );
+    this._matIconRegistry.addSvgIcon(
+        'pg-arrow-right',
+        this._domSanitizer.bypassSecurityTrustResourceUrl('assets/pagination-arrow-right.svg')
+    );
+    this._matIconRegistry.addSvgIcon(
+        'pg-arrow-left',
+        this._domSanitizer.bypassSecurityTrustResourceUrl('assets/pagination-arrow-left.svg')
+    );
   }
 
   ngOnInit(): void {
-    this.data = [...this.qlData ?? []] as const;
+    this.data = [...this.qlData?.slice(0, this.itemsToDisplay) ?? []] as const;
 
     this.isEmpty = this.data.length === 0 && !this.isLoading;
-
+    this.maxIndex = Math.floor(this.qlData?.length / this.itemsToDisplay);
 
     const element: HTMLElement = this._self.nativeElement;
     this._tableWidth = Math.floor(element.getBoundingClientRect().width);
@@ -85,8 +103,6 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   }
 
   ngAfterViewInit(): void {
-
-
   }
 
   ngAfterContentInit(): void {
@@ -96,12 +112,17 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   ngOnChanges(changes: SimpleChanges): void {
     const { qlData, isLoading } = changes;
 
-    if (qlData?.currentValue) {
-      this.data = [...qlData.currentValue];
+    if (qlData?.currentValue as []) {
+      this.data = [...qlData.currentValue?.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
+      this.maxIndex = Math.floor(this.qlData?.length / this.itemsToDisplay);
     }
 
     this.isEmpty = this.data?.length === 0 && !this.isLoading;
   }
 
 
+  changeIndexBy(change: number): void {
+    this.index += change;
+    this.data = [...this.qlData?.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
+  }
 }

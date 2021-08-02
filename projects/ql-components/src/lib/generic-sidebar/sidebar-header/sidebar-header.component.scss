@@ -1,9 +1,7 @@
-@import "sidebar-header.variables";
 @import "~@angular/material/theming";
 
 :host {
   width: 100%;
-  height: $sidebar-header-row-height;
   @include mat-elevation(1);
 
   display: flex;

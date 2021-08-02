@@ -10,6 +10,9 @@
   $fab-values: (
           width: 3.2rem,
           height: 3.2rem,
+          expand-list-right: .5rem,
+          expand-list-bottom: .5rem,
+          expand-list-top: calc(var(--list-items) * var(--height) * -1),
           background-color: mat-color($primary, 700),
           margin-right: 0.8rem,
           margin-bottom: 0.8rem,
@@ -36,15 +39,12 @@
     }
 
     .expand-list {
-      $height: ql-get-value(height, $fab-values);
 
-      height: $height;
-      width: ql-get-value(width, $fab-values);
-      padding: .4rem 5%;
 
       .expand-list-items {
-        bottom: 0;
-        top: calc(var(--list-items) * var(--height) * -1);
+        bottom: var(--expand-list-bottom);
+        top: var(--expand-list-top);
+        right: var(--expand-list-right);
 
         > * {
           margin-bottom: var(--expand-items-space-between);

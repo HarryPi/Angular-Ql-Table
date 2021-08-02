@@ -1,0 +1,34 @@
+@use "sass:map";
+@import "./../../common/base-styles.theme";
+
+@mixin ql-pagination-theme($theme, $overrides: ()) {
+  $config: mat-get-color-config($theme);
+  $primary: map-get($config, primary);
+  $ascent: map-get($config, accent);
+  $warn: map-get($config, warn);
+
+  $pagination-values: (
+          pagination-position: 'flex-end',
+          pagination-box-size: 3.2rem
+  );
+
+  $pagination-values: map.merge($pagination-values, $overrides);
+
+  ql-pagination {
+    @include extract-style-map($pagination-values);
+
+    align-self: flex-end;
+
+    .table-pagination {
+      display: inline-flex;
+
+      .left-arrow, .right-arrow {
+        margin-top: 1.6rem;
+      }
+
+      .left-arrow {
+        margin-right: 1.6rem;
+      }
+    }
+  }
+}

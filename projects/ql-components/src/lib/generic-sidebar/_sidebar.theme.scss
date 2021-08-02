@@ -12,7 +12,8 @@
   $sidebar-values: (
           sidebar-background: mat-color($ascent, 200, 0.4),
           divider-background: mat-color($primary, 700),
-          sidebar-minimized-width: 4rem
+          sidebar-minimized-width: 4rem,
+          width: 100%
   );
 
   $sidebar-values: map.merge($sidebar-values, $overrides);
@@ -26,6 +27,10 @@
   }
 
   ql-sidebar {
+    @include extract-style-map($sidebar-values);
+
+    width: var(--width);
+
     &.is-collapsed {
       width: map.get($sidebar-values, sidebar-minimized-width);
     }
