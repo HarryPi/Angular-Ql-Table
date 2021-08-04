@@ -8,7 +8,7 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   Renderer2,
   SimpleChanges,
@@ -16,6 +16,9 @@ import {
 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { takeUntil } from 'rxjs/operators';
+import { Destroyable } from '../common/destroyable';
+import { FilterComponentToken } from './filter/filter.component';
 import { THeadToken } from './thead/thead.component';
 
 @Component({
@@ -25,7 +28,7 @@ import { THeadToken } from './thead/thead.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
-export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
+export class QlTableComponent<T> extends Destroyable implements OnInit, AfterViewInit, AfterContentInit, OnChanges, OnDestroy {
 
   @Input()
   @HostBinding('style.--min-table-height')
@@ -53,8 +56,9 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   emptyOverlayRef!: ElementRef<HTMLDivElement>;
 
   @ContentChild(THeadToken) tHead: THeadToken;
+  @ContentChild(FilterComponentToken) filter: FilterComponentToken;
 
-  public data: ReadonlyArray<T>;
+  private _data: ReadonlyArray<T>;
 
   @HostBinding('style.--col-count')
   private _colCount = 0;
@@ -69,6 +73,7 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
       private _renderer: Renderer2,
       private _changeRef: ChangeDetectorRef
   ) {
+    super();
     this.index = 0;
     this.qlData = [];
     this.isEmpty = true;
@@ -92,9 +97,9 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
   }
 
   ngOnInit(): void {
-    this.data = [...this.qlData?.slice(0, this.itemsToDisplay) ?? []] as const;
+    this._data = [...this.qlData?.slice(0, this.itemsToDisplay) ?? []] as const;
 
-    this.isEmpty = this.data.length === 0 && !this.isLoading;
+    this.isEmpty = this._data.length === 0 && !this.isLoading;
     this.maxIndex = Math.floor(this.qlData?.length / this.itemsToDisplay);
 
     const element: HTMLElement = this._self.nativeElement;
@@ -107,22 +112,51 @@ export class QlTableComponent<T> implements OnInit, AfterViewInit, AfterContentI
 
   ngAfterContentInit(): void {
     this._colCount = this.tHead.headerCols;
+
+    if (this.filter) {
+      this.filter.filterChange.pipe(takeUntil(this._onDestroy)).subscribe((filterValue: string) => {
+        if (filterValue) {
+          this.data = this.qlData.filter(v => {
+            return Object.values(v).some(value => {
+              try {
+                return value.toString().toLowerCase().includes(filterValue.toLowerCase());
+              } catch (e) {
+                return false;
+              }
+            });
+          });
+        } else {
+          this.data = this.qlData;
+        }
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { qlData, isLoading } = changes;
 
     if (qlData?.currentValue as []) {
-      this.data = [...qlData.currentValue?.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
+      this.data = qlData.currentValue ?? [];
       this.maxIndex = Math.floor(this.qlData?.length / this.itemsToDisplay);
     }
 
-    this.isEmpty = this.data?.length === 0 && !this.isLoading;
+    this.isEmpty = this._data?.length === 0 && !this.isLoading;
   }
 
+  ngOnDestroy(): void {
+    this.cleanup();
+  }
 
   changeIndexBy(change: number): void {
     this.index += change;
-    this.data = [...this.qlData?.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
+    this._data = [...this.qlData?.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
+  }
+
+  get data(): ReadonlyArray<T> {
+    return this._data;
+  }
+
+  set data(value: ReadonlyArray<T>) {
+    this._data = [...value.slice(this.index * this.itemsToDisplay, this.itemsToDisplay * (this.index + 1))];
   }
 }

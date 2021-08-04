@@ -1,6 +1,3 @@
-export * from './lib/filter/filter.module';
-export * from './lib/filter/filter.component';
-
 export * from './lib/form-field/form-field.module';
 export * from './lib/form-field/field/field.component';
 
@@ -22,3 +19,6 @@ export * from './lib/generic-toolbar/toolbar.index';
 export * from './lib/ql-table/table.index';
 export * from './lib/fab/index';
 export * from './lib/chip/index';
+
+export * from './lib/loader/loader.index';
+

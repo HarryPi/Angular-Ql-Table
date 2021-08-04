@@ -37,6 +37,14 @@
     $config: map.set($config, ascent, $ascent);
   }
 
+  // Global class for filter menu
+  div.cdk-overlay-pane {
+    div.mat-menu-panel.filter {
+      max-width: none;
+      width: 20vw;
+    }
+  }
+
   ql-table {
     @include extract-style-map($table-values);
 
@@ -75,12 +83,17 @@
       min-height: inherit;
       width: 100%;
       display: flex;
-      flex-flow: column wrap;
 
-      * > {
+      .main {
+        flex-flow: column wrap;
         display: flex;
-        flex: 1 1 100%;
+        flex: 1;
       }
+
+      .filter {
+        flex: 0;
+      }
+
 
      @include ql-pagination-theme($theme, $overrides)
     }

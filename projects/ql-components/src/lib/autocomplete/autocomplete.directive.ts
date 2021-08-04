@@ -32,7 +32,7 @@ export class AutocompleteDirective extends Destroyable implements OnInit, OnDest
   }
 
   ngOnDestroy(): void {
-    super.onDestroy();
+    super.cleanup();
   }
 
 }

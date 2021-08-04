@@ -12,16 +12,24 @@
 				  svgIcon='emptyTable'></mat-icon>
 		<span class='mat-h3 mat-subheader'>No data</span>
 	</div>
-	<ng-content>
+	<div class='filter'>
+		<ng-content select='ql-filter'>
 
-	</ng-content>
-	<ql-pagination *ngIf='!isLoading && !isEmpty'
-				   [isLeftButtonEnabled]='index !== 0'
-				   [isRightButtonEnabled]='index !== maxIndex'
-				   (backButtonClickChange)='changeIndexBy(-1)'
-				   (nextButtonClickChange)='changeIndexBy(1)'>
+		</ng-content>
+	</div>
+	<div class='main'>
+		<ng-content>
 
-	</ql-pagination>
+		</ng-content>
+
+		<ql-pagination *ngIf='!isLoading && !isEmpty'
+					   [isLeftButtonEnabled]='index !== 0'
+					   [isRightButtonEnabled]='index !== maxIndex'
+					   (backButtonClickChange)='changeIndexBy(-1)'
+					   (nextButtonClickChange)='changeIndexBy(1)'>
+
+		</ql-pagination>
+	</div>
 </table>
 
 

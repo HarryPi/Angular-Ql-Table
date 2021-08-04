@@ -1,0 +1,18 @@
+<ql-button [mat-menu-trigger-for]='filterMenu'>
+	<mat-icon>
+		filter_alt
+	</mat-icon>
+</ql-button>
+<mat-menu #filterMenu [classList]='filter'>
+	<form [formGroup]='filterForm' (click)='$event.stopPropagation()'>
+		<ql-field>
+			<ql-label>Filter table</ql-label>
+			<input qlInput
+				   [formControl]='filterControl'>
+		</ql-field>
+		<div class='actions'>
+			<ql-button color='primary' (click)='filterValueClicked()'>Filter</ql-button>
+			<ql-button color='warn' (click)='resetClicked()'>Reset</ql-button>
+		</div>
+	</form>
+</mat-menu>

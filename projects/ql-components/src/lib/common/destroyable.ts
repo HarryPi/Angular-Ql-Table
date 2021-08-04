@@ -7,7 +7,7 @@ export abstract class Destroyable {
     this._onDestroy = new Subject<void>();
   }
 
-  protected onDestroy(): void {
+  protected cleanup(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

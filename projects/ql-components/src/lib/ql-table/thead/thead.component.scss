@@ -2,7 +2,10 @@ ql-table {
   --col-count: 0;
 
   ql-thead {
+    display: flex;
+    flex-flow: row;
     tr {
+      flex: 1;
       text-align: left;
       display: grid;
       grid-template-rows: 1fr;

@@ -62,7 +62,7 @@ export class SidebarContentComponent extends Destroyable implements OnInit, Afte
   }
 
   ngOnDestroy(): void {
-    this.onDestroy();
+    this.cleanup();
   }
 
   private _setGroupExpanded(groups: SidebarGroupToken[]): void {
