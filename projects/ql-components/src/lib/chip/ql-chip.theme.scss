@@ -1,9 +1,11 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "../common/base-styles.theme";
 
 @mixin ql-chip-theme($theme, $overrides: ()) {
 
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -20,29 +22,29 @@
 
 
     .ql-chip {
-      @include mat-elevation(4);
+      @include mat.elevation(4);
       @include base-size-style($ql-chip-values);
       transition-duration: 150ms;
       transition-timing-function: linear;
       transition-property: border;
 
       &.primary {
-        background-color: mat-color($primary, 500);
-        color: mat-contrast($primary, 500);
-        border: .1rem solid mat-color($primary, 100);
+        background-color: mat.get-contrast-color-from-palette($primary, 500);
+        color: mat.get-contrast-color-from-palette($primary, 500);
+        border: .1rem solid mat.get-contrast-color-from-palette($primary, 100);
 
         &:hover {
-          border: .1rem solid mat-color($primary, 600);
+          border: .1rem solid mat.get-contrast-color-from-palette($primary, 600);
         }
       }
 
       &.ascent {
-        background-color: mat-color($ascent, 500);
-        color: mat-contrast($ascent, 500);
-        border: .1rem solid mat-color($ascent, 100);
+        background-color: mat.get-contrast-color-from-palette($ascent, 500);
+        color: mat.get-contrast-color-from-palette($ascent, 500);
+        border: .1rem solid mat.get-contrast-color-from-palette($ascent, 100);
 
         &:hover {
-          border: .1rem solid mat-color($ascent, 600);
+          border: .1rem solid mat.get-contrast-color-from-palette($ascent, 600);
         }
       }
 

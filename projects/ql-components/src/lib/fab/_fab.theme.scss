@@ -1,8 +1,10 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "../common/base-styles.theme";
 
 @mixin fab-theme($theme, $typo: null, $overrides: ()) {
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -13,7 +15,7 @@
           expand-list-right: .5rem,
           expand-list-bottom: .5rem,
           expand-list-top: calc(var(--list-items) * var(--height) * -1),
-          background-color: mat-color($primary, 700),
+          background-color: mat.get-color-from-palette($primary, 700),
           margin-right: 0.8rem,
           margin-bottom: 0.8rem,
           expand-items-space-between: .4rem
@@ -59,7 +61,7 @@
       margin-bottom: var(--margin-bottom);
 
       border-radius: 50%;
-      @include mat-elevation(8);
+      @include mat.elevation(8);
     }
   }
 }

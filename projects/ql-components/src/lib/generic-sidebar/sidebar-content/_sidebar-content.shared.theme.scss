@@ -1,4 +1,6 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "../../common/base-styles.theme";
 
 @mixin hover-item($clr) {
@@ -6,12 +8,12 @@
     transition-timing-function: linear;
     transition-duration: 250ms;
 
-    color: mat-color($clr, 800, 1);
-    fill: mat-color($clr, 800, 1);
+    color: mat.get-color-from-palette($clr, 800, 1);
+    fill: mat.get-color-from-palette($clr, 800, 1);
 }
 
 @mixin sidebar-content-item($theme, $typo: null, $overrides: ()) {
-    $config: mat-get-color-config($theme);
+    $config: mat.get-color-config($theme);
     $primary: map-get($config, primary);
     $ascent: map-get($config, accent);
     $warn: map-get($config, warn);
@@ -29,10 +31,10 @@
     order: var(--order);
 
     height: map.get($content-values, row-height);
-    font-size: mat-font-size($typo, body-1);
-    font-family: mat-font-family($typo);
-    color: mat-color($primary);
-    fill: mat-color($primary);
+    font-size: mat.font-size($typo, body-1);
+    font-family: mat.font-family($typo);
+    color: mat.get-color-from-palette($primary);
+    fill: mat.get-color-from-palette($primary);
     grid-template-columns: .2fr .8fr map.get($content-values, item-selected-border-width);
 
     &.has-icon.is-collapsed {

@@ -1,17 +1,19 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "sidebar-content/sidebar-content.theme";
 @import "sidebar-header/sidebar-header.theme";
 @import "sidebar-collapse/sidebar-collapse.theme";
 
-@mixin sidebar-theme($theme, $typo: null, $reverse: false, $overrides: ()) {
-  $config: mat-get-color-config($theme);
+@mixin sidebar-theme($theme, $typo: (), $reverse: false, $overrides: ()) {
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
   $sidebar-values: (
-          sidebar-background: mat-color($ascent, 200, 0.4),
-          divider-background: mat-color($primary, 700),
+          sidebar-background: mat.get-color-from-palette($ascent, 200, 0.4),
+          divider-background: mat.get-color-from-palette($primary, 700),
           sidebar-minimized-width: 4rem,
           width: 100%
   );
@@ -43,11 +45,11 @@
 
     ql-sidebar-collapse {
       @if ($typo) {
-        font-size: mat-font-size($typo, body-1);
-        font-family: mat-font-family($typo);
+        font-size: mat.font-size($typo, body-1);
+        font-family: mat.font-family($typo);
       }
-      color: mat-color($primary, 700);
-      fill: mat-color($primary, 700);
+      color: mat.get-color-from-palette($primary, 700);
+      fill: mat.get-color-from-palette($primary, 700);
 
       @include ql-sidebar-collapse-theme($config, $sidebar-values);
     }

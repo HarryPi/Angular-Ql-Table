@@ -1,8 +1,10 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "../../../common/base-styles.theme";
 
 @mixin ql-sidebar-group-theme($theme, $typo, $overrides: ()) {
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -15,8 +17,8 @@
 
 
   ql-sidebar-group {
-    color: mat-color($primary);
-    fill: mat-color($primary);
+    color: mat.get-color-from-palette($primary);
+    fill: mat.get-color-from-palette($primary);
     @include extract-style-map($content-values);
 
     &.has-icon {
@@ -27,8 +29,8 @@
 
     .text {
       @if ($typo != null) {
-        font-size: mat-font-size($typo, body-1);
-        font-family: mat-font-family($typo);
+        font-size: mat.font-size($typo, body-1);
+        font-family: mat.font-family($typo);
       }
     }
 
@@ -37,8 +39,8 @@
 
       ql-sidebar-item {
         @if ($typo != null) {
-          font-size: mat-font-size($typo, caption);
-          font-family: mat-font-family($typo);
+          font-size: mat.font-size($typo, caption);
+          font-family: mat.font-family($typo);
         }
       }
     }

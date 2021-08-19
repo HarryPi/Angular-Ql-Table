@@ -1,9 +1,11 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "../../common/base-styles.theme";
 
 @mixin ql-sidebar-header-theme($theme, $overrides: ()) {
 
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -18,7 +20,7 @@
   ql-sidebar-header {
     @include extract-style-map($content-values);
 
-    background-color: mat-color($primary, 400);
+    background-color: mat.get-color-from-palette($primary, 400);
     height: var(--sidebar-header-height);
   }
 
@@ -36,7 +38,7 @@
       width: 0;
       height: .15rem;
       content: ' ';
-      background-color: mat-color($ascent, 400);
+      background-color: mat.get-color-from-palette($ascent, 400);
     }
 
     &.selected {

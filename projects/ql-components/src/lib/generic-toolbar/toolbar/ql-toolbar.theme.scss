@@ -1,7 +1,8 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
 
 @mixin ql-toolbar-theme($theme, $overrides: ()) {
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -9,7 +10,7 @@
   $toolbar-values: (
           height: 5vh,
           width: 100vw,
-          background-color: mat-color($primary)
+          background-color: mat.get-color-from-palette($primary)
   );
 
   $content-values: map.merge($toolbar-values, $overrides);

@@ -1,7 +1,8 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
 
 @mixin ql-sidebar-collapse-theme($theme, $sidebar-values: ()) {
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);

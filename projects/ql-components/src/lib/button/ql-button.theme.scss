@@ -1,4 +1,5 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
 
 @import "../common/base-styles.theme";
 
@@ -7,13 +8,13 @@
   transition-duration: 150ms;
   transition-timing-function: linear;
 
-  border: .1rem solid mat-color($primary, 400, .7);
+  border: .1rem solid mat.get-color-from-palette($primary, 400, .7);
   outline: none;
   border-radius: .2rem;
 
   &:hover {
-    border: .1rem solid mat-color($primary, 700, .7);
-    box-shadow: 0 0 .15rem .02rem mat-color($primary, 300, 1);
+    border: .1rem solid mat.get-color-from-palette($primary, 700, .7);
+    box-shadow: 0 0 .15rem .02rem mat.get-color-from-palette($primary, 300, 1);
   }
 
 }
@@ -38,12 +39,12 @@
 
   $button-values: map.merge($button-values, $overrides);
 
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
 
-  @include mat-ripple-theme($theme);
+  @include mat.ripple();
 
   .ql-button-spinner {
     animation: spinner-spin 2s linear infinite;
@@ -86,7 +87,7 @@
 
       @include base-color-style($theme);
       @include ql-buttons-common($primary);
-      @include mat-elevation(4);
+      @include mat.elevation(4);
 
       border-radius: 50%;
     }

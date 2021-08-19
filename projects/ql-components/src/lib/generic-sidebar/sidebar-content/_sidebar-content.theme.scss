@@ -1,10 +1,12 @@
 @use "sass:map";
+@use '~@angular/material' as mat;
+
 @import "./sidebar-group/sidebar-group.theme";
 @import "sidebar-content.shared.theme";
 @import "../../common/base-styles.theme";
 
 @mixin ql-sidebar-content-theme($theme, $typo: null, $overrides: ()) {
-  $config: mat-get-color-config($theme);
+  $config: mat.get-color-config($theme);
   $primary: map-get($config, primary);
   $ascent: map-get($config, accent);
   $warn: map-get($config, warn);
@@ -13,11 +15,11 @@
           group-child-padding: 3.2rem,
           group-arrow-position: 'end',
           group-row-space-between: .4rem,
-          group-open-background-color: mat-color($primary, 200, 0.1),
-          selected-border-color: mat-color($primary),
+          group-open-background-color: mat.get-color-from-palette($primary, 200, 0.1),
+          selected-border-color: mat.get-color-from-palette($primary),
           item-padding: 0 0 0 5%,
           item-selected-border-width: .4rem,
-          item-selected-background-color: mat-color($primary, A100, 0.4),
+          item-selected-background-color: mat.get-color-from-palette($primary, A100, 0.4),
           row-height: 4rem,
           row-width: inherit,
           row-group-width: 100%

@@ -52,7 +52,7 @@ export class FieldComponent extends Destroyable implements OnInit, AfterContentI
   }
 
   ngAfterContentInit(): void {
-    this.input.hasError.pipe(
+    this.input?.hasError.pipe(
         takeUntil(this._onDestroy)
     ).subscribe(invalid => {
       this.inputError = invalid;
