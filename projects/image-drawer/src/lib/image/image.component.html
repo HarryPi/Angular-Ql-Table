@@ -10,6 +10,10 @@
                 (mousedown)='beginDraw($event)'
                 (mousemove)='continueDraw($event)'
                 (mouseup)='stopDraw($event)'
+
+                (touchstart)='beginDraw($event)'
+                (touchmove)='continueDrawTouch($event)'
+                (touchend)='stopDraw($event)'
 		        #canvas></canvas>
     </mat-card-content>
     <img #image
