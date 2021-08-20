@@ -80,6 +80,18 @@ export class ImageComponent extends QImage implements OnInit {
     }
   }
 
+  continueDrawTouch(event: TouchEvent) {
+    const touchX = event.changedTouches[0].pageX;
+    const touchY = event.changedTouches[0].pageY;
+    const {x,y} = this._getCursorPosition(this.canvas.nativeElement, {clientX: touchX, clientY: touchY});
+    if (this._mouseIsClicked && !this._pathIsOpen) {
+      this._pathIsOpen = true;
+      this._drawPoint(x, y, 'START');
+    } else if (this._mouseIsClicked) {
+      this._drawPoint(x, y);
+    }
+  }
+
   stopDraw(event: MouseEvent): void {
     this._mouseIsClicked = false;
     this._pathIsOpen = false;
